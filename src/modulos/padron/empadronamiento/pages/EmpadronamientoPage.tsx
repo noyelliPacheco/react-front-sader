@@ -30,8 +30,8 @@ export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
   const methods = useForm<Productor>({ defaultValues: derechohabienteForm, mode: "onChange", });
   const { handleSubmit, /*formState: { errors },*/ watch ,setValue } = methods;
 
-  const idEntidad = Number(watch("domicilio.idEntidadFederativa"));
-  const idMunicipio = Number(watch("domicilio.idMunicipio"));
+  const idEntidad = Number(watch("datos.domicilio.idEntidadFederativa"));
+  const idMunicipio = Number(watch("datos.domicilio.idMunicipio"));
   
   
     const catalogoMunicipio = useCatalogosMunicipio(idEntidad);
@@ -170,9 +170,10 @@ export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
   const onSubmit = (form: Productor) => {
     // Si quieres avanzar SOLO cuando el POST fue exitoso,
     // mueve handleNext() al onSuccess (recomendado).
+    console.log("json:", JSON.stringify(form, null, 2));
     mutate(form, {
       onSuccess: (resp) => {
-        setValue("folio", resp.data.identificador ?? '');
+        setValue("datos.folio", resp.data.identificador ?? '');
         console.log("Empadronamiento OK:", resp.data.identificador);
         toast.success("Se realizo correctamente la captura del productor", {
           position: "bottom-center",

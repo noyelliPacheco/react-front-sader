@@ -57,8 +57,8 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <input type="text" placeholder="Ingrese código postal"
               className="block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none"
-              {...register("domicilio.codigoPostal", { required: true })} />
-            {errors.domicilio?.codigoPostal && (
+              {...register("datos.domicilio.codigoPostal", { required: true })} />
+            {errors.datos?.domicilio?.codigoPostal && (
               <p className="text-red-500">El código postal es requerido.</p>
             )}
           </div>
@@ -68,7 +68,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             <label className="block mb-1 text-sm text-gray-500">Estado:</label>
             <div className="relative">
               <select
-                {...register("domicilio.idEntidadFederativa", { required: true,
+                {...register("datos.domicilio.idEntidadFederativa", { required: true,
                   setValueAs: (v) => (v === "" ? undefined : Number(v)),
                 })}
                 className="block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none"
@@ -84,7 +84,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
                 ▼
               </span>
             </div>
-            {errors.domicilio?.idEntidadFederativa && (
+            {errors.datos?.domicilio?.idEntidadFederativa && (
               <p className="text-red-500">El estado es requerido.</p>
             )}
           </div>
@@ -96,7 +96,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <div className="relative">
               <select
-                {...register("domicilio.idMunicipio", {
+                {...register("datos.domicilio.idMunicipio", {
                   required: true,
                   setValueAs: (v) => (v === "" ? undefined : Number(v)),
                 })}
@@ -114,7 +114,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
                 ▼
               </span>
             </div>
-            {errors.domicilio?.idMunicipio && (
+            {errors.datos?.domicilio?.idMunicipio && (
               <p className="text-red-500">El municipio es requerido.</p>
             )}
           </div>
@@ -125,7 +125,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
               Localidad:
             </label>
             <div className="relative">
-              <select {...register("domicilio.idLocalidad", { required: true,setValueAs: (v) => (v === "" ? undefined : Number(v)), })}
+              <select {...register("datos.domicilio.idLocalidad", { required: true,setValueAs: (v) => (v === "" ? undefined : Number(v)), })}
                 className="block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none" >
                 <option value={""}>Selecciona</option>
                 {(responseLocalidad?.data ?? []).map((localidad) => (
@@ -138,7 +138,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
                 ▼
               </span>
             </div>
-            {errors.domicilio?.idLocalidad && (
+            {errors.datos?.domicilio?.idLocalidad && (
               <p className="text-red-500">La localidad es requerida.</p>
             )}
           </div>
@@ -177,7 +177,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <div className="relative">
               <select
-                {...register("domicilio.idTipoAsentamiento", {
+                {...register("datos.domicilio.idTipoAsentamiento", {
                   required: true,
                   setValueAs: (v) => (v === "" ? undefined : Number(v)),
                 })}
@@ -194,7 +194,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
                 ▼
               </span>
             </div>
-            {errors.domicilio?.idTipoAsentamiento && (
+            {errors.datos?.domicilio?.idTipoAsentamiento && (
               <p className="text-red-500">
                 El tipo de asentamiento es requerido.
               </p>
@@ -208,11 +208,11 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <input
               type="text"
-              {...register("domicilio.nombreAsentamiento", { required: true })}
+              {...register("datos.domicilio.nombreAsentamiento", { required: true })}
               className="block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none"
               placeholder="Ingrese nombre del asentamiento"
             />
-            {errors.domicilio?.nombreAsentamiento && (
+            {errors.datos?.domicilio?.nombreAsentamiento && (
               <p className="text-red-500">
                 El nombre del asentamiento es requerido.
               </p>
@@ -235,7 +235,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <div className="relative">
               <select
-                {...register("domicilio.idTipoDireccion", {
+                {...register("datos.domicilio.idTipoDireccion", {
                   required: true,
                   setValueAs: (v) => (v === "" ? undefined : Number(v)),
                 })}
@@ -252,7 +252,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
                 ▼
               </span>
             </div>
-            {errors.domicilio?.idTipoDireccion && (
+            {errors.datos?.domicilio?.idTipoDireccion && (
               <p className="text-red-500">
                 El tipo de dirección es requerido.
               </p>
@@ -266,7 +266,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <div className="relative">
               <select
-                {...register("domicilio.idTipoVialidad", {
+                {...register("datos.domicilio.idTipoVialidad", {
                   required: true,
                   setValueAs: (v) => (v === "" ? undefined : Number(v)),
                 })}
@@ -283,7 +283,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
                 ▼
               </span>
             </div>
-            {errors.domicilio?.idTipoVialidad && (
+            {errors.datos?.domicilio?.idTipoVialidad && (
               <p className="text-red-500">
                 El tipo de vialidad es requerido.
               </p>
@@ -297,11 +297,11 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <input
               type="text"
-              {...register("domicilio.nombreVialidad", { required: true })}
+              {...register("datos.domicilio.nombreVialidad", { required: true })}
               className="block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none"
               placeholder="Ingrese nombre de la vialidad"
             />
-            {errors.domicilio?.nombreVialidad && (
+            {errors.datos?.domicilio?.nombreVialidad && (
               <p className="text-red-500">
                 El nombre de la vialidad es requerido.
               </p>
@@ -315,11 +315,11 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <input
               type="text"
-              {...register("domicilio.noExterior", { required: true })}
+              {...register("datos.domicilio.noExterior", { required: true })}
               className="block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none"
               placeholder="Ingrese número exterior"
             />
-            {errors.domicilio?.noExterior && (
+            {errors.datos?.domicilio?.noExterior && (
               <p className="text-red-500">
                 El número exterior es requerido.
               </p>
@@ -333,7 +333,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <input
               type="text"
-              {...register("domicilio.noInterior")}
+              {...register("datos.domicilio.noInterior")}
               className="block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none"
               placeholder="Opcional"
             />
@@ -354,11 +354,11 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <input
               type="text"
-              {...register("domicilio.latitud", { required: true })}
+              {...register("datos.domicilio.latitud", { required: true })}
               className="block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none"
               placeholder="Ingrese latitud"
             />
-            {errors.domicilio?.latitud && (
+            {errors.datos?.domicilio?.latitud && (
               <p className="text-red-500">La latitud es requerida.</p>
             )}
           </div>
@@ -369,11 +369,11 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             </label>
             <input
               type="text"
-              {...register("domicilio.longitud", { required: true })}
+              {...register("datos.domicilio.longitud", { required: true })}
               className="block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none"
               placeholder="Ingrese longitud"
             />
-            {errors.domicilio?.longitud && (
+            {errors.datos?.domicilio?.longitud && (
               <p className="text-red-500">La longitud es requerida.</p>
             )}
           </div>

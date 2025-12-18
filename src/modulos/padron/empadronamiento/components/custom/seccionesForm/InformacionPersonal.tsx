@@ -48,8 +48,8 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
       </div>
 
       {/* Identificación de la persona */}
-        <input   type="hidden"  {...register("idPersona")}  value={1} />
-        <input   type="hidden"  {...register("personal.telefonos.1.idTelefono")}  value={1} />
+        <input   type="hidden"  {...register("datos.idPersona")}  value={1} />
+        <input   type="hidden"  {...register("datos.personal.telefonos.1.idTelefono")}  value={1} />
         <fieldset className="mt-2 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
           <legend className="flex items-center gap-2 px-2 text-sm font-semibold text-guinda-150">
             <span>Información de identidad</span>
@@ -59,7 +59,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
             {/* CURP */}
             <div className="mb-3">
               <label className="mb-1 block text-sm text-gray-500" htmlFor="curp"> CURP: </label>
-              <input id="curp_text" type="text" placeholder="Ingrese CURP" readOnly {...register("personal.curp", ) }
+              <input id="curp_text" type="text" placeholder="Ingrese CURP" readOnly {...register("datos.personal.curp", ) }
                 className="block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none"/>
             </div>
             {/* RFC */}
@@ -75,7 +75,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
               <label className="mb-1 block text-sm text-gray-500" htmlFor="rfc" > RFC: </label>
 
               <input id="rfc" type="text" placeholder="Ingrese RFC" autoComplete="off"
-                {...register('personal.rfc', {
+                {...register('datos.personal.rfc', {
                   setValueAs: (value: string) => (value || '').toUpperCase().trim(), 
                   validate: (value) => {
                     if (!value) return true; // campo vacío es válido
@@ -90,14 +90,14 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                   'block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none uppercase',
                   {
                     'border-validation-mistake':
-                      !!errors.personal?.rfc,
+                      !!errors.datos?.personal?.rfc,
                   }
                 )}
               />
 
-              {errors.personal?.rfc && (
+              {errors.datos?.personal?.rfc && (
                 <p className="mt-1 text-sm text-validation-mistake">
-                  {errors.personal.rfc.message?.toString()}
+                  {errors.datos?.personal.rfc.message?.toString()}
                 </p>
               )}
             </div>
@@ -128,13 +128,13 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 Nombre(s):
               </label>
               <input id="nombre" type="text" placeholder="Ejemplo: ANA MARIA" readOnly
-                {...register("personal.nombre",
+                {...register("datos.personal.nombre",
                   {required:true,})
                 }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                  "border-red-500":errors.personal?.nombre})}
+                  "border-red-500":errors.datos?.personal?.nombre})}
               />
-              { errors.personal?.nombre && (<p className="text-red-500">El nombre es requerido.</p>) }
+              { errors.datos?.personal?.nombre && (<p className="text-red-500">El nombre es requerido.</p>) }
             </div>
 
             <div className="mb-3">
@@ -142,13 +142,13 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 Apellido paterno:
               </label>
               <input id="apellidoPaterno" type="text" placeholder="Ejemplo: ALDAMA" readOnly
-                {...register("personal.apellidoPaterno",
+                {...register("datos.personal.apellidoPaterno",
                   {required:true,})
                 }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                  "border-red-500":errors.personal?.apellidoPaterno })}  
+                  "border-red-500":errors.datos?.personal?.apellidoPaterno })}  
               />
-              { errors.personal?.nombre && (<p className="text-red-500">El nombre es requerido.</p>) }
+              { errors.datos?.personal?.nombre && (<p className="text-red-500">El nombre es requerido.</p>) }
             </div>
 
             <div className="mb-3">
@@ -156,13 +156,13 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 Apellido materno:
               </label>
               <input id="apellidoMaterno" type="text" placeholder="Ejemplo: MARTÍNEZ" readOnly
-                {...register("personal.apellidoMaterno",
+                {...register("datos.personal.apellidoMaterno",
                   {required:true,})
                 }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                  "border-red-500":errors.personal?.apellidoMaterno })}
+                  "border-red-500":errors.datos?.personal?.apellidoMaterno })}
               />
-              { errors.personal?.apellidoMaterno && (<p className="text-red-500">El apellido materno es requerio</p>) }
+              { errors.datos?.personal?.apellidoMaterno && (<p className="text-red-500">El apellido materno es requerio</p>) }
             </div>
 
             <div className="flex flex-col gap-1">
@@ -170,13 +170,13 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 Fecha de nacimiento
               </label>
               <input id="fechaNacimiento" type="date" readOnly
-                {...register("personal.fechaNacimiento",
+                {...register("datos.personal.fechaNacimiento",
                   {required:true,})
                 }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                  "border-red-500":errors.personal?.fechaNacimiento })}
+                  "border-red-500":errors.datos?.personal?.fechaNacimiento })}
               />
-              { errors.personal?.fechaNacimiento && (<p className="text-red-500">La fecha de nacimiento es requerida.</p>) }
+              { errors.datos?.personal?.fechaNacimiento && (<p className="text-red-500">La fecha de nacimiento es requerida.</p>) }
             </div>
 
             {/* Estado de nacimiento (placeholder) */}
@@ -186,12 +186,12 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
               </label>
               <div className="relative">
                 <select id="entidadNacimiento" 
-                  {...register("personal.idEntidadNacimiento", {
+                  {...register("datos.personal.idEntidadNacimiento", {
                     required:true,
                     setValueAs: (v) => (v === "" ? undefined : Number(v)),
                   })}
                   className={ cn("block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                    "border-red-500":errors.personal?.idEntidadNacimiento })}
+                    "border-red-500":errors.datos?.personal?.idEntidadNacimiento })}
                 >
                   <option value={""}>Selecciona</option>
                   {(responseEntidadFederativa?.data?? []).map((entidadFederativa) => (
@@ -203,7 +203,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 </select>
                 <span className="pointer-events-none absolute right-0 top-1 text-xs text-gray-400">▼</span>
               </div>
-              { errors.personal?.idEntidadNacimiento && (<p className="text-red-500">La entidad de nacimiento es requerida.</p>) }
+              { errors.datos?.personal?.idEntidadNacimiento && (<p className="text-red-500">La entidad de nacimiento es requerida.</p>) }
             </div>
           </div>
       </fieldset>
@@ -222,12 +222,12 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
               </label>
               <div className="relative">
                 <select id="estadoCivil"
-                  {...register("personal.idEstadoCivil", {
+                  {...register("datos.personal.idEstadoCivil", {
                     required:true,
                     setValueAs: (v) => (v === "" ? undefined : Number(v)),
                   })}
                   className={ cn("block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                    "border-red-500":errors.personal?.idEstadoCivil })}
+                    "border-red-500":errors.datos?.personal?.idEstadoCivil })}
                 >
                   <option value={""}>Selecciona</option>
 
@@ -240,7 +240,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 </select>
                 <span className="pointer-events-none absolute right-0 top-1 text-xs text-gray-400">▼</span>
               </div>
-              { errors.personal?.idEstadoCivil && (<p className="text-red-500">El estado civil es requerido.</p>) }
+              { errors.datos?.personal?.idEstadoCivil && (<p className="text-red-500">El estado civil es requerido.</p>) }
             </div>
 
             {/* Sexo */}
@@ -250,11 +250,11 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
               </label>
               <div className="relative">
                 <select id="sexo"
-                  {...register("personal.sexo",
+                  {...register("datos.personal.sexo",
                     {required:true,})
                   }
                   className={ cn("block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                    "border-red-500":errors.personal?.sexo })}
+                    "border-red-500":errors.datos?.personal?.sexo })}
                 >
                   <option value={""}>Selecciona</option>
                    {(responseSexo?.data ?? []).map((sexo) => (
@@ -265,7 +265,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 </select>
                 <span className="pointer-events-none absolute right-0 top-1 text-xs text-gray-400">▼</span>
               </div>
-              { errors.personal?.sexo && (<p className="text-red-500">El sexo es requerido.</p>) }
+              { errors.datos?.personal?.sexo && (<p className="text-red-500">El sexo es requerido.</p>) }
             </div>
 
             {/* Nacionalidad (placeholder) */}
@@ -275,12 +275,12 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
               </label>
               <div className="relative">
                 <select id="nacionalidad"
-                  {...register("personal.idNacionalidad", {
+                  {...register("datos.personal.idNacionalidad", {
                     required:true,
                     setValueAs: (v) => (v === "" ? undefined : Number(v)),
                   })}
                   className={ cn("block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                    "border-red-500":errors.personal?.idNacionalidad })}
+                    "border-red-500":errors.datos?.personal?.idNacionalidad })}
                 >
                   <option value={""}>Selecciona</option>
                    {(responseNacionalidad?.data ?? []).map((entidadFederativa) => (
@@ -292,7 +292,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 </select>
                 <span className="pointer-events-none absolute right-0 top-1 text-xs text-gray-400">▼</span>
               </div>
-              { errors.personal?.idNacionalidad && (<p className="text-red-500">La nacionalidad es requerida.</p>) }
+              { errors.datos?.personal?.idNacionalidad && (<p className="text-red-500">La nacionalidad es requerida.</p>) }
             </div>
             {/* Tipo de identificacipon */}
             <div className="mb-3">
@@ -301,12 +301,12 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
               </label>
               <div className="relative">
                 <select id="idTipoIdentificacion"
-                  {...register("personal.idTipoIdentificacion", {
+                  {...register("datos.personal.idTipoIdentificacion", {
                     required:true,
                     setValueAs: (v) => (v === "" ? undefined : Number(v)),
                   })}
                   className={ cn("block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                    "border-red-500":errors.personal?.idTipoIdentificacion })}
+                    "border-red-500":errors.datos?.personal?.idTipoIdentificacion })}
                 >
                   <option value={""}>Selecciona</option>
                    {(responseTipoIdentificacion?.data ?? []).map((tipoIdentificacion) => (
@@ -318,7 +318,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 </select>
                 <span className="pointer-events-none absolute right-0 top-1 text-xs text-gray-400">▼</span>
               </div>
-              { errors.personal?.idTipoIdentificacion && (<p className="text-red-500">La nacionalidad es requerida.</p>) }
+              { errors.datos?.personal?.idTipoIdentificacion && (<p className="text-red-500">La nacionalidad es requerida.</p>) }
             </div>
             {/* Numero de identificacipon */}
             <div className="mb-3">
@@ -326,13 +326,13 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 Numero de identificación:
               </label>
               <input id="numeroIdentificacion" type="text" placeholder="Ejemplo: 01204545157-DFG-5" readOnly
-                {...register("personal.numeroIdentificacion",
+                {...register("datos.personal.numeroIdentificacion",
                   {required:true,})
                 }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                  "border-red-500":errors.personal?.numeroIdentificacion})}
+                  "border-red-500":errors.datos?.personal?.numeroIdentificacion})}
               />
-              { errors.personal?.numeroIdentificacion && (<p className="text-red-500">El numero de identifiación es requerido.</p>) }
+              { errors.datos?.personal?.numeroIdentificacion && (<p className="text-red-500">El numero de identifiación es requerido.</p>) }
             </div>
             
           </div>
@@ -350,28 +350,28 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 Correo:
               </label>
               <input id="correo" type="email" placeholder="Ejemplo: fernando@gmail.com"
-                {...register("personal.correoElectronico",
+                {...register("datos.personal.correoElectronico",
                   {required:true,})
                 }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                  "border-red-500":errors.personal?.apellidoMaterno }) }
+                  "border-red-500":errors.datos?.personal?.apellidoMaterno }) }
               />
-              { errors.personal?.correoElectronico && (<p className="text-red-500">El correo es requerido.</p>) }
+              { errors.datos?.personal?.correoElectronico && (<p className="text-red-500">El correo es requerido.</p>) }
             </div>
 
             <div className="mb-3">
-              <input   type="hidden"  {...register("personal.telefonos.0.idTelefono")}  value={1} />
+              <input   type="hidden"  {...register("datos.personal.telefonos.0.idTelefono")}  value={1} />
               <label className="mb-1 block text-sm text-gray-500" htmlFor="numeroTelefono">
                 Celular:
               </label>
               <input id="numeroTelefono" type="tel" placeholder="Ejemplo 55 123 5678"
-                {...register("personal.telefonos.0.numeroTelefono",
+                {...register("datos.personal.telefonos.0.numeroTelefono",
                   {required:true,})
                 }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                  "border-red-500":errors.personal?.telefonos?.[0]?.numeroTelefono }) }                
+                  "border-red-500":errors.datos?.personal?.telefonos?.[0]?.numeroTelefono }) }                
               />
-              { errors.personal?.telefonos?.[0]?.numeroTelefono && (<p className="text-red-500">El número de celular es requerido.</p>) }
+              { errors.datos?.personal?.telefonos?.[0]?.numeroTelefono && (<p className="text-red-500">El número de celular es requerido.</p>) }
             </div>
 
             {/* <div className="mb-4">
@@ -398,11 +398,11 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
             </div> */}
 
             <div className="mb-3">
-              <input   type="hidden"  {...register("personal.telefonos.1.idTelefono")}  value={1} />
+              <input   type="hidden"  {...register("datos.personal.telefonos.1.idTelefono")}  value={1} />
               <label className="mb-1 block text-sm text-gray-500" htmlFor="numeroTelefono">
                 Teléfono particular:
               </label>
-              <input id="numeroTelefono" type="tel" placeholder="Opcional" {...register("personal.telefonos.1.numeroTelefono", ) }
+              <input id="numeroTelefono" type="tel" placeholder="Opcional" {...register("datos.personal.telefonos.1.numeroTelefono", ) }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",)}
               />
             </div>

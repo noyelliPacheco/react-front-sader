@@ -7,13 +7,23 @@ import type { RegistroDeProduccion } from "./registroDeProduccion.interface";
 
 
 export interface Productor {
-    personal: Personal;
-    idPersona: number|undefined;
-    domicilio : Domicilio;
-    registroDeProduccion : RegistroDeProduccion;
-    caracterizacion : Caracterizacion;
-    expediente : Expediente;
-    unidadProduccion : CentroProduccion[];
-    folio?: string;
+    datos:{
+        personal: Personal;
+        idPersona: number|undefined;
+        domicilio : Domicilio;
+        registroDeProduccion : RegistroDeProduccion;
+        caracterizacion : Caracterizacion;
+        expediente : Expediente;
+        unidadProduccion : CentroProduccion[];
+        folio?: string;
+    },
+    credencialElector?:         File | null;
+    comprobanteDomicilio?:      File | null;
+    documentoLegalPropiedad?:   File | null;
+    documentoArrendatario?:     File | null;
+    formatoInscripcionPgn?:     File | null;
+    permisoPesca?:              File | null;
+    actaConstitutiva?:      File | null;
+    
 }
 

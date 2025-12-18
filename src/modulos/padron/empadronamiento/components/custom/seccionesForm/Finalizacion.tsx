@@ -25,12 +25,12 @@ type VerifyIdentityStepProps = {
 export const Finalizacion = ({ stepClick, }: VerifyIdentityStepProps )=> {
 
 const {  watch, reset } = useFormContext<Productor>();
-  const nombreCompleto = watch('personal.nombre') + ' ' + watch('personal.apellidoPaterno') + ' ' + watch('personal.apellidoMaterno');
-  const tipoPersona:string = watch('personal.idTipoPersona') == 1 ? "Fisica" : "Moral";
-  const folio = watch('folio') ;
+  const nombreCompleto = watch('datos.personal.nombre') + ' ' + watch('datos.personal.apellidoPaterno') + ' ' + watch('datos.personal.apellidoMaterno');
+  const tipoPersona:string = watch('datos.personal.idTipoPersona') == 1 ? "Fisica" : "Moral";
+  const folio = watch('datos.folio') ;
   const datosPdf:Props = {
     nombreProductor: nombreCompleto,
-    curp: watch('personal.curp'),
+    curp: watch('datos.personal.curp'),
     tipoPersona:  tipoPersona,
     folioRegistro: folio,
     fechaRegistro: Date(),

@@ -74,7 +74,7 @@ export const InformacionExpediente = ({   onBack, onSubmit, catalogos, }: Verify
   }
 
   // FieldArray ligado al formulario
-  const { fields, replace, update } = useFieldArray({control,name: "expediente.documentosArreglo" as any,});
+  const { fields, replace, update } = useFieldArray({control,name: "datos.expediente.documentosArreglo" as any,});
   
 
   // refs para inputs file
@@ -96,7 +96,7 @@ export const InformacionExpediente = ({   onBack, onSubmit, catalogos, }: Verify
   }, [responseDocumentos]);
 
   // documentos actuales del form (pueden venir precargados al consultar CURP)
-  const docsFromForm = (watch("expediente.documentosArreglo" as any) ??
+  const docsFromForm = (watch("datos.expediente.documentosArreglo" as any) ??
     []) as Documento[];
 
   // merge catálogo + docs del backend/form:

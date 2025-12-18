@@ -62,7 +62,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
         setShowModal(true);
     };
     
-    const arregloCentrosProduccion =  watch("unidadProduccion") ?? [];
+    const arregloCentrosProduccion =  watch("datos.unidadProduccion") ?? [];
     
     const handleEditCentro = (index: number) => {
         setEditingIndex(index);
@@ -104,7 +104,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
       }
     
       // Guardar en el form
-      setValue("unidadProduccion", updatedCentros, {
+      setValue("datos.unidadProduccion", updatedCentros, {
         shouldDirty: true,
         shouldValidate: true,
       });
@@ -115,7 +115,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
     const handleDeleteCentro = (index: number) => {
       const updatedCentros = arregloCentrosProduccion.filter((_, i) => i !== index);
     
-      setValue("unidadProduccion", updatedCentros, {
+      setValue("datos.unidadProduccion", updatedCentros, {
         shouldDirty: true,
         shouldValidate: true,
       });

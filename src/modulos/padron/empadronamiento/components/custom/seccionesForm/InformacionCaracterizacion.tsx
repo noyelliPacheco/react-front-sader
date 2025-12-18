@@ -48,12 +48,12 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     <div className="flex items-center gap-4 text-sm text-gray-700">
                         <label className="flex items-center gap-1">
                             <input type="radio"  value="true" 
-                                {...register("caracterizacion.perteneceAsociacionCampesina")}/>
+                                {...register("datos.caracterizacion.perteneceAsociacionCampesina")}/>
                             <span>Sí</span>
                         </label> 
                         <label className="flex items-center gap-1">
                             <input type="radio" value="false"  
-                            {...register("caracterizacion.perteneceAsociacionCampesina")}/>
+                            {...register("datos.caracterizacion.perteneceAsociacionCampesina")}/>
                             <span>No</span>
                         </label>
                     </div>    
@@ -81,7 +81,7 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     <label className="mb-1 block text-sm text-gray-500" htmlFor="asociacionCampesina">
                         Asociación:
                     </label>
-                    <input id="asociacionCampesina" type="text" placeholder="Ejemplo: ANA MARIA" readOnly {...register("caracterizacion.asociacionCampesina")} /> 
+                    <input id="asociacionCampesina" type="text" placeholder="Ejemplo: ANA MARIA" readOnly {...register("datos.caracterizacion.asociacionCampesina")} /> 
                 </div>
             </div>
         </fieldset>
@@ -97,14 +97,14 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     <div className="flex items-center gap-4 text-sm text-gray-700">
                         <label className="flex items-center gap-1">
                             <input type="radio"  value="true"  
-                                {...register("caracterizacion.discapacidad", {
+                                {...register("datos.caracterizacion.discapacidad", {
                                     required: true,
                                    
                                 })}/>
                             <span>Sí</span>
                         </label> 
                         <label className="flex items-center gap-1">
-                            <input type="radio"  value="false"   {...register("caracterizacion.discapacidad")}/>
+                            <input type="radio"  value="false"   {...register("datos.caracterizacion.discapacidad")}/>
                             <span>No</span>
                         </label>
                     </div>    
@@ -116,7 +116,7 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     </label>
                     <div className="relative">
                     <select 
-                        {...register("caracterizacion.idTipoDiscapacidad", 
+                        {...register("datos.caracterizacion.idTipoDiscapacidad", 
                             {
                                 required:true,
                             })
@@ -142,14 +142,14 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     <div className="flex items-center gap-4 text-sm text-gray-700">
                         <label className="flex items-center gap-1">
                             <input type="radio"  value="true"  
-                                {...register("caracterizacion.declaratoriaIndigena", {
+                                {...register("datos.caracterizacion.declaratoriaIndigena", {
                                     required: true,
                                     
                                 })}/>
                             <span>Sí</span>
                         </label> 
                         <label className="flex items-center gap-1">
-                            <input type="radio"  value="false"  {...register("caracterizacion.declaratoriaIndigena")}/>
+                            <input type="radio"  value="false"  {...register("datos.caracterizacion.declaratoriaIndigena")}/>
                             <span>No</span>
                         </label>
                     </div>    
@@ -158,7 +158,7 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                 <div className="mb-4">
                     <label className="block text-sm text-gray-500 mb-1"> ¿Cuál? </label>
                     <div className="relative">
-                    <select  {...register("caracterizacion.idTipoDeclaratoriaIndigena",  { required:true, }) }
+                    <select  {...register("datos.caracterizacion.idTipoDeclaratoriaIndigena",  { required:true, }) }
                         className="{`block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none`}">
                         <option value={""}>Selecciona</option>
                         {(responsePoblacionIndigena?.data ?? []).map((poblacionIndigena) => (
@@ -185,14 +185,14 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     <div className="flex items-center gap-4 text-sm text-gray-700">
                         <label className="flex items-center gap-1">
                             <input type="radio" value="true" 
-                                {...register("caracterizacion.hablaEspanol", {
+                                {...register("datos.caracterizacion.hablaEspanol", {
                                     required: true,
                                     
                                 })}/>
                             <span>Sí</span>
                         </label> 
                         <label className="flex items-center gap-1">
-                            <input type="radio"  value="false" {...register("caracterizacion.hablaEspanol")}/>
+                            <input type="radio"  value="false" {...register("datos.caracterizacion.hablaEspanol")}/>
                             <span>No</span>
                         </label>
                     </div>    
@@ -204,7 +204,7 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     </label>
                     <div className="relative">
                     <select 
-                        {...register("caracterizacion.idNivelEstudios", 
+                        {...register("datos.caracterizacion.idNivelEstudios", 
                             {
                                 required:true,
                             })
@@ -225,7 +225,7 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     Regimen de propiedad:
                   </label>
                   <div className="relative">
-                  <select {...register("caracterizacion.idRegimenPropiedad",  { required:true, }) }
+                  <select {...register("datos.caracterizacion.idRegimenPropiedad",  { required:true, }) }
                     className="block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none">
                     <option value={""}>Seleccione...</option>
                     {(responseRegimenPropietario?.data ?? []).map((regimen) => (

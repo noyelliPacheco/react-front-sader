@@ -48,7 +48,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                     </label>
                     <div className="relative">
                     <select 
-                        {...register("registroDeProduccion.idSectorAgroalimentario", 
+                        {...register("datos.registroDeProduccion.idSectorAgroalimentario", 
                             {
                                 required:true,
                             })
@@ -65,7 +65,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                     </select>
                     <span className="pointer-events-none absolute right-0 top-1 text-gray-400 text-xs">▼</span>
                     </div>
-                    { errors.registroDeProduccion?.idSectorAgroalimentario && (<p className="text-red-500">El nombre es requerido.</p>) }
+                    { errors.datos?.registroDeProduccion?.idSectorAgroalimentario && (<p className="text-red-500">El nombre es requerido.</p>) }
                 </div>
                 <div className="mb-4">
                     <label className="block text-sm text-gray-500 mb-1">
@@ -73,7 +73,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                     </label>
                     <div className="relative">
                     <select
-                        {...register("registroDeProduccion.principalesCultivos.0.idCultivoEspecie", 
+                        {...register("datos.registroDeProduccion.principalesCultivos.0.idCultivoEspecie", 
                             {
                                 required:true,
                             })
@@ -95,7 +95,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                     </label>
                     <div className="relative">
                     <select 
-                        {...register("registroDeProduccion.principalesCultivos.0.idTipoCultivo", 
+                        {...register("datos.registroDeProduccion.principalesCultivos.0.idTipoCultivo", 
                             {
                                 required:true,
                             })
@@ -117,7 +117,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                     </label>
                     <div className="relative">
                     <select
-                        {...register("registroDeProduccion.principalesCultivos.0.idRegimenHidrico", 
+                        {...register("datos.registroDeProduccion.principalesCultivos.0.idRegimenHidrico", 
                             {
                                 required:true,
                             })
@@ -145,7 +145,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                         Superficie (ha):
                     </label>
                     <input type="text" 
-                        {...register("registroDeProduccion.principalesCultivos.0.superficie", 
+                        {...register("datos.registroDeProduccion.principalesCultivos.0.superficie", 
                             {
                                 required:true,
                             })
@@ -157,7 +157,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                         Clave UPP/PSG:
                     </label>
                     <input type="text" 
-                        {...register("registroDeProduccion.claveUpp", 
+                        {...register("datos.registroDeProduccion.claveUpp", 
                             {
                                 required:false,
                             })
@@ -170,7 +170,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                         Número de vientres/colmenas:
                     </label>
                     <input type="text" 
-                        {...register("registroDeProduccion.principalesCultivos.0.numeroVientresColmenas", 
+                        {...register("datos.registroDeProduccion.principalesCultivos.0.numeroVientresColmenas", 
                             {
                                 required:true,
                             })
@@ -184,7 +184,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                         Total de cabezas de hato:
                     </label>
                     <input type="text" 
-                        {...register("registroDeProduccion.principalesCultivos.0.totalCabezasHato", 
+                        {...register("datos.registroDeProduccion.principalesCultivos.0.totalCabezasHato", 
                             {
                                 required:true,
                             })
@@ -197,7 +197,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                         Volumen de producción (ton):
                     </label>
                     <input type="text"
-                        {...register("registroDeProduccion.principalesCultivos.0.volumenProduccion", 
+                        {...register("datos.registroDeProduccion.principalesCultivos.0.volumenProduccion", 
                             {
                                 required:true,
                             })
@@ -211,11 +211,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                         Valor de la producción (ton/$):
                     </label>
                     <input type="text" 
-                        {...register("registroDeProduccion.principalesCultivos.0.valorProduccion", 
-                            {
-                                required:true,
-                            })
-                        }
+                        {...register("datos.registroDeProduccion.principalesCultivos.0.valorProduccion",  ) }
                         className={"block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:outline-none focus:border-blue-500"} 
                         placeholder="Ingrese CURP" />
                 </div>
@@ -224,11 +220,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                         Precio del cultivo/especie:
                     </label>
                     <input type="text" 
-                        {...register("registroDeProduccion.principalesCultivos.0.precioCultivoEspecie", 
-                            {
-                                required:true,
-                            })
-                        }
+                        {...register("datos.registroDeProduccion.principalesCultivos.0.precioCultivoEspecie", )}
                         className={"block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:outline-none focus:border-blue-500"} 
                         placeholder="Ingrese CURP" />
                 </div>                

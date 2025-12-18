@@ -2,7 +2,7 @@ import type { Productor } from "./productor.interface";
 
 
 export const defaultProductorValues: Productor = {
-  idPersona: 0,
+  datos:{idPersona: 0,
   folio: '',
   personal: {
     idTipoPersona: "",
@@ -103,5 +103,13 @@ export const defaultProductorValues: Productor = {
   }
   }, // basado en Expediente :contentReference[oaicite:5]{index=5}
 
-  unidadProduccion: [], // basado en Productor :contentReference[oaicite:6]{index=6}
+  unidadProduccion: [],
+ } ,
+ credencialElector:         null,
+  comprobanteDomicilio:      null,
+  documentoArrendatario:     null,
+  documentoLegalPropiedad:   null,
+  permisoPesca:              null,
+  formatoInscripcionPgn:    null,
+  actaConstitutiva:         null,// basado en Productor :contentReference[oaicite:6]{index=6}
 };
