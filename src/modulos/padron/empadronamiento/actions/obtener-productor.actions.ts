@@ -8,8 +8,8 @@ import { dummyCreateProductorResponse, dummyProductorResponse } from "../interfa
 
 export  const obtenerProductorFisico = async(curp: string): Promise<ProductorResponse> =>{
 
-    //const { data } = await xamanApi.get<ProductorResponse>(`api/v1/padron/consulta/persona/fisica/${curp}`);
-    const data = dummyProductorResponse;
+    const { data } = await xamanApi.get<ProductorResponse>(`api/v1/padron/consulta/persona/fisica/${curp}`);
+    //const data = dummyProductorResponse;
     // const data = {
     //     message: '¡¡Esto salio mal!!',
     //     success: true,
@@ -36,13 +36,13 @@ export  const obtenerProductorMoral = async(curp: string): Promise<ProductorResp
 };
 
 export const crearRegistroProductorFisico = async ( formProductor: Productor ): Promise<ProductorCreateResponse> => {
-    //const { data } = await xamanApi.post<ProductorResponse>("/v1/padron/empadronarProductor/",formProductor);
-    const data = dummyCreateProductorResponse;
+    const { data } = await xamanApi.post<ProductorCreateResponse>("/v1/padron/empadronarProductor/",formProductor);
+    //const data = dummyCreateProductorResponse;
 
     return data;
 };
 
-export  const crearRegistroProductorMoral = async(formProductor: Productor): Promise<ProductorResponse> =>{
-    const { data } = await xamanApi.post<ProductorResponse>("/v1/padron/empadronarProductor/",formProductor);
+export  const crearRegistroProductorMoral = async(formProductor: Productor): Promise<ProductorCreateResponse> =>{
+    const { data } = await xamanApi.post<ProductorCreateResponse>("/v1/padron/empadronarProductor/",formProductor);
     return data;
 };
