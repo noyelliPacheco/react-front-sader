@@ -19,9 +19,9 @@ type Props = {
 
 export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props ) =>{
     /**  Variables  **/
-    const { register, /*control,*/formState:{errors}, } = useFormContext<Productor>();
+    const { register, /*control,*/ } = useFormContext<Productor>();
     
-    const responseOrganizacion = catalogos.asociacionOrganizacion.data;
+    //const responseOrganizacion = catalogos.asociacionOrganizacion.data;
     const responseTipoDiscapacidad = catalogos.discapacidad.data;
     const responseEscolaridad  = catalogos.nivelEstudios.data;
     const responsePoblacionIndigena  = catalogos.poblacionIndigena.data;
@@ -48,17 +48,17 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     <div className="flex items-center gap-4 text-sm text-gray-700">
                         <label className="flex items-center gap-1">
                             <input type="radio"  value="true" 
-                                {...register("caracterizacion.tieneAsociacion")}/>
+                                {...register("caracterizacion.perteneceAsociacionCampesina")}/>
                             <span>Sí</span>
                         </label> 
                         <label className="flex items-center gap-1">
                             <input type="radio" value="false"  
-                            {...register("caracterizacion.tieneAsociacion")}/>
+                            {...register("caracterizacion.perteneceAsociacionCampesina")}/>
                             <span>No</span>
                         </label>
                     </div>    
                 </div> 
-                <div className="mb-4">
+                {/* <div className="mb-4">
                     <label className="block text-sm text-gray-500 mb-1">
                     ¿Cuál?
                     </label>
@@ -76,7 +76,13 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     <span className="pointer-events-none absolute right-0 top-1 text-gray-400 text-xs">▼</span>
                     </div>
                     { errors.caracterizacion?.idAsociacion && (<p className="text-red-500">La asociación es requerido.</p>) }
-                </div>            
+                </div>             */}
+                <div className="mb-3">
+                    <label className="mb-1 block text-sm text-gray-500" htmlFor="asociacionCampesina">
+                        Asociación:
+                    </label>
+                    <input id="asociacionCampesina" type="text" placeholder="Ejemplo: ANA MARIA" readOnly {...register("caracterizacion.asociacionCampesina")} /> 
+                </div>
             </div>
         </fieldset>
         <fieldset className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm mt-2">
@@ -91,14 +97,14 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     <div className="flex items-center gap-4 text-sm text-gray-700">
                         <label className="flex items-center gap-1">
                             <input type="radio"  value="true"  
-                                {...register("caracterizacion.tieneDiscapacidad", {
+                                {...register("caracterizacion.discapacidad", {
                                     required: true,
                                    
                                 })}/>
                             <span>Sí</span>
                         </label> 
                         <label className="flex items-center gap-1">
-                            <input type="radio"  value="false"   {...register("caracterizacion.tieneDiscapacidad")}/>
+                            <input type="radio"  value="false"   {...register("caracterizacion.discapacidad")}/>
                             <span>No</span>
                         </label>
                     </div>    
@@ -110,7 +116,7 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     </label>
                     <div className="relative">
                     <select 
-                        {...register("caracterizacion.idDiscapacidad", 
+                        {...register("caracterizacion.idTipoDiscapacidad", 
                             {
                                 required:true,
                             })
@@ -136,14 +142,14 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     <div className="flex items-center gap-4 text-sm text-gray-700">
                         <label className="flex items-center gap-1">
                             <input type="radio"  value="true"  
-                                {...register("caracterizacion.pertenecePoblacionIndigena", {
+                                {...register("caracterizacion.declaratoriaIndigena", {
                                     required: true,
                                     
                                 })}/>
                             <span>Sí</span>
                         </label> 
                         <label className="flex items-center gap-1">
-                            <input type="radio"  value="false"  {...register("caracterizacion.pertenecePoblacionIndigena")}/>
+                            <input type="radio"  value="false"  {...register("caracterizacion.declaratoriaIndigena")}/>
                             <span>No</span>
                         </label>
                     </div>    
@@ -152,7 +158,7 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                 <div className="mb-4">
                     <label className="block text-sm text-gray-500 mb-1"> ¿Cuál? </label>
                     <div className="relative">
-                    <select  {...register("caracterizacion.idPoblacionIndigena",  { required:true, }) }
+                    <select  {...register("caracterizacion.idTipoDeclaratoriaIndigena",  { required:true, }) }
                         className="{`block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none`}">
                         <option value={""}>Selecciona</option>
                         {(responsePoblacionIndigena?.data ?? []).map((poblacionIndigena) => (
@@ -179,14 +185,14 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     <div className="flex items-center gap-4 text-sm text-gray-700">
                         <label className="flex items-center gap-1">
                             <input type="radio" value="true" 
-                                {...register("caracterizacion.hablaEspañol", {
+                                {...register("caracterizacion.hablaEspanol", {
                                     required: true,
                                     
                                 })}/>
                             <span>Sí</span>
                         </label> 
                         <label className="flex items-center gap-1">
-                            <input type="radio"  value="false" {...register("caracterizacion.hablaEspañol")}/>
+                            <input type="radio"  value="false" {...register("caracterizacion.hablaEspanol")}/>
                             <span>No</span>
                         </label>
                     </div>    
@@ -198,7 +204,7 @@ export const  InformacionCaracterizacion = ({ onNext, onBack, catalogos }: Props
                     </label>
                     <div className="relative">
                     <select 
-                        {...register("caracterizacion.nivelEstudios", 
+                        {...register("caracterizacion.idNivelEstudios", 
                             {
                                 required:true,
                             })

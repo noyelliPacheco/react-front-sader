@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import type { CatalogoResponse } from "../../../interfaces/response/catalogos.response";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import type { Productor } from "../../../interfaces/productor.interface";
-import type { Documento } from "../../../interfaces/Expediente.interface";
+import type { Documento } from "../../../interfaces/expediente.interface";
 
 
 
@@ -472,6 +472,7 @@ export const InformacionExpediente = ({   onBack, onSubmit, catalogos, }: Verify
         >
           Anterior
         </Button>
+        
         <Button
           className="bg-guinda-160 text-white"
           onClick={handleEnviar}

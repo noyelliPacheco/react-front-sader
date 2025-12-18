@@ -1,14 +1,17 @@
 export interface Caracterizacion {
-  tieneAsociacion: string | '';
+  perteneceAsociacionCampesina: string | '';
   idAsociacion?: number | '';
+  asociacionCampesina?: string | '';
 
-  tieneDiscapacidad: string | '';
-  idDiscapacidad: number | '';
+  discapacidad: string | '';
+  idTipoDiscapacidad: number | '';
 
-  pertenecePoblacionIndigena: string | '';
-  idPoblacionIndigena: number | '';
+  declaratoriaIndigena: string | '';
+  idTipoDeclaratoriaIndigena: number | '';
+
+  lenguaIndigena:number | undefined;
 
   idRegimenPropiedad: number | '';
-  nivelEstudios: number | '';  
-  hablaEspañol: string | '';
+  idNivelEstudios: number | '';  
+  hablaEspanol: string | '';
 }

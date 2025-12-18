@@ -1,8 +1,8 @@
 import { xamanApi } from "@/api/xamanApi";
-import type { ProductorResponse } from "../interfaces/response/productorFisico.response";
+import type { ProductorCreateResponse, ProductorResponse } from "../interfaces/response/productorFisico.response";
 import type { Productor } from "../interfaces/productor.interface";
 
-import { dummyProductorResponse } from "../interfaces/data/derechohabienteFisica";
+import { dummyCreateProductorResponse, dummyProductorResponse } from "../interfaces/data/derechohabienteFisica";
 
 
 
@@ -35,8 +35,9 @@ export  const obtenerProductorMoral = async(curp: string): Promise<ProductorResp
     return data;
 };
 
-export const crearRegistroProductorFisico = async ( formProductor: Productor ): Promise<ProductorResponse> => {
-    const { data } = await xamanApi.post<ProductorResponse>("/v1/padron/empadronarProductor/",formProductor);
+export const crearRegistroProductorFisico = async ( formProductor: Productor ): Promise<ProductorCreateResponse> => {
+    //const { data } = await xamanApi.post<ProductorResponse>("/v1/padron/empadronarProductor/",formProductor);
+    const data = dummyCreateProductorResponse;
 
     return data;
 };

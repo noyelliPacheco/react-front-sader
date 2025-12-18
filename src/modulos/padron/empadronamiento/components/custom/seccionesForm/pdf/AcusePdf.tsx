@@ -6,7 +6,7 @@ type Props = {
   nombreProductor: string;
   curp: string;
   tipoPersona: string;
-  folioRegistro: string;
+  folioRegistro: string | undefined;
   fechaRegistro: string;
   fechaActualizacion: string;
 };

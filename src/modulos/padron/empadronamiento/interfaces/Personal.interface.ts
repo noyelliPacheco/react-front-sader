@@ -9,11 +9,20 @@ export interface Personal {
   fechaNacimiento: Date;
 
   sexo: number | '';
+
   idEstadoCivil: number | '';
   idEntidadNacimiento: number | '';
   idTipoIdentificacion: number | '';
+  numeroIdentificacion: string;
 
   telefonoCelular: string;
+  telefonos?: [{
+    idTelefono: number;
+    numeroTelefono : string;
+  }, {
+    idTelefono: number;
+    numeroTelefono : string;
+  },]
   numeroTelefono: string;
   idTipoTelefono: number | '';
   correoElectronico: string;

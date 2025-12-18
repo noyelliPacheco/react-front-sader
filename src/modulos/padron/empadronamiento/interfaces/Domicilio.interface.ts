@@ -1,13 +1,13 @@
 export interface Domicilio {
   codigoPostal: number | null;
-  idEntidad: number | "";
+  idEntidadFederativa: number | "";
   entidadNombre?: string;
   idMunicipio: number | "";
   municipioNombre?: string;
   idLocalidad: number | "";
   localidadNombre?: string;
   idCentroIntegrador : number;
-  centroIntegrador : string;
+  centroIntegrador? : string;
 
   idTipoAsentamiento : number;
   nombreAsentamiento : string;

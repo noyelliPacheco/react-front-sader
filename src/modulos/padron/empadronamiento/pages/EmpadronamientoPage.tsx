@@ -16,8 +16,10 @@ import { useCatalogosCultivoEspecie, useCatalogosDocumentosExpediente, useCatalo
   useCatalogosEscolaridad, useCatalogosEstadoCivil, useCatalogosLocalidad, useCatalogosMunicipio, useCatalogosNacionalidad, useCatalogosOrganizacion, 
   useCatalogosPoblacionIndigena, useCatalogosRegimenHidrico, useCatalogosSectorAgroalimentario, useCatalogosSexo, 
   useCatalogosTipoAsentamientoHumano, useCatalogosTipoCultivo, useCatalogosTipoDireccion, useCatalogosTipoDiscapacidad, 
-  useCatalogosTipoDocumentoLegal, useCatalogosTipoPersona, useCatalogosTipoRegimen, useCatalogosTipoTelefono, useCatalogosTipoVialidad } from "../hooks/useCatalogos";
+  useCatalogosTipoDocumentoLegal, useCatalogosTipoIdentificacion, useCatalogosTipoPersona, useCatalogosTipoRegimen, useCatalogosTipoTelefono, useCatalogosTipoVialidad } from "../hooks/useCatalogos";
 import type { Productor } from "../interfaces/productor.interface";
+import { useCrearRegistroProductorFisico } from "../hooks/mutations/useCrearRegistroProductorFisico";
+import { toast } from "sonner";
 
 interface Props {
   derechohabienteForm: Productor | undefined;
@@ -25,10 +27,10 @@ interface Props {
 
 export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
   /**  Variables  **/
-  const methods = useForm<Productor>({ defaultValues: derechohabienteForm, mode: "onSubmit", });
-  const { handleSubmit, /*formState: { errors },*/ watch  } = methods;
+  const methods = useForm<Productor>({ defaultValues: derechohabienteForm, mode: "onChange", });
+  const { handleSubmit, /*formState: { errors },*/ watch ,setValue } = methods;
 
-  const idEntidad = Number(watch("domicilio.idEntidad"));
+  const idEntidad = Number(watch("domicilio.idEntidadFederativa"));
   const idMunicipio = Number(watch("domicilio.idMunicipio"));
   
   
@@ -131,6 +133,7 @@ export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
     sexo: useCatalogosSexo(),      
     nacionalidad: useCatalogosNacionalidad(),
     tipoTelefono: useCatalogosTipoTelefono(),
+    tipoIdentificacion: useCatalogosTipoIdentificacion(),
     entidadFederativa : catalogoEntidadFederativa,
   };
     
@@ -161,12 +164,28 @@ export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
       nivelEstudios: useCatalogosEscolaridad(),
       regimenPropietario: useCatalogosTipoRegimen(),
     };
+    const { mutate, } = useCrearRegistroProductorFisico();
 
   /**  Métodos  **/
-  const onSubmit = (data: Productor) => {
-    console.log("Empadronamiento -> datos:", JSON.stringify(data, null, 2));
-    handleNext();
-
+  const onSubmit = (form: Productor) => {
+    // Si quieres avanzar SOLO cuando el POST fue exitoso,
+    // mueve handleNext() al onSuccess (recomendado).
+    mutate(form, {
+      onSuccess: (resp) => {
+        setValue("folio", resp.data.identificador ?? '');
+        console.log("Empadronamiento OK:", resp.data.identificador);
+        toast.success("Se realizo correctamente la captura del productor", {
+          position: "bottom-center",
+        });
+        handleNext(); 
+      },
+      onError: (err) => {
+        console.error("Error al empadronar:", err);
+        toast.error("Error al intentar empadronar.", {
+          position: "bottom-center",
+        });
+      },
+    });
   };
 
   const handleNext = () => {
@@ -211,7 +230,7 @@ export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
               {currentStep === 5 && ( <CentrosProduccion onNext={handleNext} onBack={handleBack} catalogos={catalogoCentroProductivo}/> )}
               {currentStep === 6 && ( <InformacionCaracterizacion onNext={handleNext} onBack={handleBack} catalogos={catalogoCaracterizacion}/> )}
               {currentStep === 7 && ( <InformacionExpediente onNext={handleNext} onBack={handleBack} onSubmit={onSubmit} catalogos={catalogoDocumentosExpediente}/> )}
-              {currentStep === 8 && <Finalizacion  />}
+              {currentStep === 8 && <Finalizacion stepClick={handleStepClick}/>}
             </div>
           </div>
         </form>

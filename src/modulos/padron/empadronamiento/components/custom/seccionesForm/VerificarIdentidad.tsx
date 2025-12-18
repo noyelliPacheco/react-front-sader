@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import type { ProductorResponse } from "../../../interfaces/response/productorFisico.response";
 import type { CatalogoResponse } from "../../../interfaces/response/catalogos.response";
-import type { CentroProduccion, UbicacionGeografica } from "../../../interfaces/centrosProducccion.interface";
-import type { Documento } from "../../../interfaces/Expediente.interface";
+import type { CentroProduccion, UbicacionGeografica } from "../../../interfaces/centroProducccion.interface";
+import type { Documento } from "../../../interfaces/expediente.interface";
 import type { Productor } from "../../../interfaces/productor.interface";
 //import type { CentroProduccion } from "../../../interfaces/registroDeProduccion.interface";
 //import type { Documento } from "../../../interfaces/expediente.interface";
@@ -30,20 +30,19 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
   const { refetch,isFetching,  } = useBuscarProductor(Number(idTipoPersona), curp,{ 
   onSuccess: (data) => {
     if (!data.success) {
-      toast.error("No se pudo consultar", {
-        description:
-          data.message ??
-          "Ocurrió un problema al consultar la información del productor.",
-        position: "bottom-center",
-      });
+      
+      toast.error("Ocurrió un problema al consultar la información del productor.", {
+          position: "bottom-center",
+        });
+      
       return;
     }
     const productor = data.data;
     if (!productor) {
-      toast("Sin resultados", {
-        description:
-          "No se encontró un productor con la combinación de tipo de persona y CURP ingresada.",
-      });
+      
+      toast.error("No se encontró un productor con la combinación de tipo de persona y CURP ingresada.", {
+          position: "bottom-center",
+        });
       return;
     }
     hidratarDerechohabiente(data);
@@ -51,7 +50,9 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
     onNext();
   },
   onError: () => {
-    toast.error("Error al consultar la información del productor.");
+    toast.error("Error al consultar la información del productor.", {
+      position: "bottom-center",
+    });
   },}); 
 
   /**  Métodos  **/ 
@@ -88,7 +89,7 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
       const domicilio = productor.domicilio;
       //const ubicacion = domicilio.ubicacionGeografica ?? {};
       setValue("domicilio.codigoPostal", domicilio.codigoPostal ?? null);
-      setValue("domicilio.idEntidad", domicilio.idEntidadFederativa ?? 0);
+      setValue("domicilio.idEntidadFederativa", domicilio.idEntidadFederativa ?? 0);
       setValue("domicilio.idMunicipio", domicilio.idMunicipio ?? 0);
       setValue("domicilio.idLocalidad", domicilio.idLocalidad ?? 0);
       setValue("domicilio.centroIntegrador", domicilio.centroIntegrador ?? "");
@@ -107,17 +108,17 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
     if (productor.registroProduccion) {
       const registroProduccion = productor.registroProduccion;
       setValue("registroDeProduccion.idSectorAgroalimentario", registroProduccion.idSectorAgroalimentario ?? '');
-      setValue("registroDeProduccion.idCultivosEspecies", registroProduccion.idCultivo ?? '');
-      setValue("registroDeProduccion.idTipoCultivo", registroProduccion.idCultivo ?? '');//TODO: Repara esta sección idTipoCultivo
-      setValue("registroDeProduccion.superficie", registroProduccion.superficieHa ?? '');
-      setValue("registroDeProduccion.claveUppPsg", registroProduccion.claveUppPsg ?? '');
-      setValue("registroDeProduccion.cantidadVientresColmenas", registroProduccion.totalCabezasHato ?? '');
-      setValue("registroDeProduccion.cantidadCabezas", registroProduccion.totalCabezasHato ?? '');
-      setValue("registroDeProduccion.volumenProduccion", registroProduccion.volumenProduccionTon ?? '');
-      setValue("registroDeProduccion.valorProduccion", registroProduccion.valorProduccion ?? '');
+      setValue("registroDeProduccion.principalesCultivos.0.idCultivoEspecie", registroProduccion.idCultivo ?? '');
+      setValue("registroDeProduccion.principalesCultivos.0.idTipoCultivo", registroProduccion.idCultivo ?? '');//TODO: Repara esta sección idTipoCultivo
+      setValue("registroDeProduccion.principalesCultivos.0.superficie", registroProduccion.superficieHa ?? '');
+      setValue("registroDeProduccion.claveUpp", registroProduccion.claveUppPsg ?? '');
+      setValue("registroDeProduccion.principalesCultivos.0.numeroVientresColmenas", registroProduccion.totalCabezasHato ?? '');
+      setValue("registroDeProduccion.principalesCultivos.0.totalCabezasHato", registroProduccion.totalCabezasHato ?? '');
+      setValue("registroDeProduccion.principalesCultivos.0.volumenProduccion", registroProduccion.volumenProduccionTon ?? '');
+      setValue("registroDeProduccion.principalesCultivos.0.valorProduccion", registroProduccion.valorProduccion ?? '');
       //setValue("registroDeProduccion.precioCultivo", productor.registroProduccion.precioCultivo ?? '');
       //setValue("registroDeProduccion.precioCultivoEspecie", registroProduccion.precioCultivoEspecie ?? '');
-      setValue("registroDeProduccion.regimenHidrico", registroProduccion.idRegimenHidrico ?? '');
+      setValue("registroDeProduccion.principalesCultivos.0.regimenHidrico", registroProduccion.idRegimenHidrico ?? '');
 
       // Si tu API trae centros de producción, mapeas el arreglo completo:
       if (productor.centrosProduccion) {
@@ -154,14 +155,15 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
     // ---------- CARACTERIZACIÓN ----------
     if (productor.caracterizacion) {
       const caracterizacion = productor.caracterizacion;
-      setValue("caracterizacion.tieneAsociacion", String(caracterizacion.indAsociacionCampesinaOrganizacionProductores) ?? '');
+      setValue("caracterizacion.perteneceAsociacionCampesina", String(caracterizacion.indAsociacionCampesinaOrganizacionProductores) ?? '');
       setValue("caracterizacion.idAsociacion", caracterizacion.idTipoDiscapacidad ?? '');//Todo: revisar este nombre de variable
-      setValue("caracterizacion.tieneDiscapacidad", String(caracterizacion.indDiscapacidad )?? '');
-      setValue("caracterizacion.idDiscapacidad", caracterizacion.idTipoDiscapacidad ?? '');
-      setValue("caracterizacion.nivelEstudios", caracterizacion.idEscolaridad ?? '');
-      setValue("caracterizacion.hablaEspañol", String(caracterizacion.indEspaniol) ?? '');
-      setValue("caracterizacion.pertenecePoblacionIndigena", String(caracterizacion.indDeclaratoriaIndigena) ?? '');
-      setValue("caracterizacion.idPoblacionIndigena", caracterizacion.idTipoDeclaratoriaIndigena ?? '');
+      setValue("caracterizacion.discapacidad", String(caracterizacion.indDiscapacidad )?? '');
+      setValue("caracterizacion.idTipoDiscapacidad", caracterizacion.idTipoDiscapacidad ?? '');
+      setValue("caracterizacion.idNivelEstudios", caracterizacion.idEscolaridad ?? '');
+      setValue("caracterizacion.hablaEspanol", String(caracterizacion.indEspaniol) ?? '');
+      setValue("caracterizacion.declaratoriaIndigena", String(caracterizacion.indDeclaratoriaIndigena) ?? '');
+      setValue("caracterizacion.idTipoDeclaratoriaIndigena", caracterizacion.idTipoDeclaratoriaIndigena ?? '');
+      //TODO: Hace falta el parametro de regimen de propiedad y el de el tipo de lengua
       
     }
 

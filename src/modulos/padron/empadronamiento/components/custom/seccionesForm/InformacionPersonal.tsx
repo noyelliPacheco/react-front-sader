@@ -14,6 +14,7 @@ type VerifyIdentityStepProps = {
     nacionalidad: UseQueryResult<CatalogoResponse, Error>,
     tipoTelefono: UseQueryResult<CatalogoResponse, Error>,
     entidadFederativa : UseQueryResult<CatalogoResponse, Error>,
+    tipoIdentificacion : UseQueryResult<CatalogoResponse, Error>,
   };
   onNext: () => void;
   onBack: () => void;
@@ -27,7 +28,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
   const responseSexo = catalogos.sexo.data;
   const responseEntidadFederativa = catalogos.entidadFederativa.data;
   const responseNacionalidad = catalogos.nacionalidad.data;
-  const responseTipoTelefono = catalogos.tipoTelefono.data;
+  const responseTipoIdentificacion = catalogos.tipoIdentificacion.data;
    
   /**  Métodos  **/
   // Switch controlado: ¿Tiene llave MX?
@@ -39,7 +40,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
 
   return (
     <section className="rounded-2xl p-4  sm:p-5">
-      <div className="mb-4">
+      <div className="mb-3">
         <h3 className="flex items-center gap-2 text-lg font-semibold text-dorado-110">
           <User className="h-5 w-5 text-dorado-110 shrink-0" aria-hidden />
           <span className="leading-none">Información personal</span>
@@ -47,6 +48,8 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
       </div>
 
       {/* Identificación de la persona */}
+        <input   type="hidden"  {...register("idPersona")}  value={1} />
+        <input   type="hidden"  {...register("personal.telefonos.1.idTelefono")}  value={1} />
         <fieldset className="mt-2 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
           <legend className="flex items-center gap-2 px-2 text-sm font-semibold text-guinda-150">
             <span>Información de identidad</span>
@@ -68,7 +71,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 className="block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none" />
             </div> */}
             {/* RFC */}
-            <div className="mb-4">
+            <div className="mb-3">
               <label className="mb-1 block text-sm text-gray-500" htmlFor="rfc" > RFC: </label>
 
               <input id="rfc" type="text" placeholder="Ingrese RFC" autoComplete="off"
@@ -265,8 +268,6 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
               { errors.personal?.sexo && (<p className="text-red-500">El sexo es requerido.</p>) }
             </div>
 
-            
-
             {/* Nacionalidad (placeholder) */}
             <div className="mb-3">
               <label className="mb-1 block text-sm text-gray-500" htmlFor="entidadNacimiento">
@@ -292,6 +293,46 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 <span className="pointer-events-none absolute right-0 top-1 text-xs text-gray-400">▼</span>
               </div>
               { errors.personal?.idNacionalidad && (<p className="text-red-500">La nacionalidad es requerida.</p>) }
+            </div>
+            {/* Tipo de identificacipon */}
+            <div className="mb-3">
+              <label className="mb-1 block text-sm text-gray-500" htmlFor="idTipoIdentificacion">
+                Tipo de identificación:
+              </label>
+              <div className="relative">
+                <select id="idTipoIdentificacion"
+                  {...register("personal.idTipoIdentificacion", {
+                    required:true,
+                    setValueAs: (v) => (v === "" ? undefined : Number(v)),
+                  })}
+                  className={ cn("block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
+                    "border-red-500":errors.personal?.idTipoIdentificacion })}
+                >
+                  <option value={""}>Selecciona</option>
+                   {(responseTipoIdentificacion?.data ?? []).map((tipoIdentificacion) => (
+                    <option key={tipoIdentificacion.id}  value={tipoIdentificacion.id} >
+                      {tipoIdentificacion.nombre}
+                    </option>
+                  ))} 
+                  
+                </select>
+                <span className="pointer-events-none absolute right-0 top-1 text-xs text-gray-400">▼</span>
+              </div>
+              { errors.personal?.idTipoIdentificacion && (<p className="text-red-500">La nacionalidad es requerida.</p>) }
+            </div>
+            {/* Numero de identificacipon */}
+            <div className="mb-3">
+              <label className="mb-1 block text-sm text-gray-500" htmlFor="numeroIdentificacion">
+                Numero de identificación:
+              </label>
+              <input id="numeroIdentificacion" type="text" placeholder="Ejemplo: 01204545157-DFG-5" readOnly
+                {...register("personal.numeroIdentificacion",
+                  {required:true,})
+                }
+                className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
+                  "border-red-500":errors.personal?.numeroIdentificacion})}
+              />
+              { errors.personal?.numeroIdentificacion && (<p className="text-red-500">El numero de identifiación es requerido.</p>) }
             </div>
             
           </div>
@@ -319,11 +360,12 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
             </div>
 
             <div className="mb-3">
-              <label className="mb-1 block text-sm text-gray-500" htmlFor="numeroCelular">
+              <input   type="hidden"  {...register("personal.telefonos.0.idTelefono")}  value={1} />
+              <label className="mb-1 block text-sm text-gray-500" htmlFor="numeroTelefono">
                 Celular:
               </label>
-              <input id="numeroCelular" type="tel" placeholder="Ejemplo 55 123 5678"
-                {...register("personal.telefonoCelular",
+              <input id="numeroTelefono" type="tel" placeholder="Ejemplo 55 123 5678"
+                {...register("personal.telefonos.0.numeroTelefono",
                   {required:true,})
                 }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
@@ -332,7 +374,7 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
               { errors.personal?.telefonoCelular && (<p className="text-red-500">El número de celular es requerido.</p>) }
             </div>
 
-             <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="mb-1 block text-sm text-gray-500" htmlFor="tipoTelefono">
                 Tipo de teléfono:
               </label>
@@ -353,15 +395,14 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                 </select>
                 <span className="pointer-events-none absolute right-0 top-1 text-xs text-gray-400">▼</span>
               </div>
-            </div>
+            </div> */}
 
             <div className="mb-3">
+              <input   type="hidden"  {...register("personal.telefonos.1.idTelefono")}  value={1} />
               <label className="mb-1 block text-sm text-gray-500" htmlFor="numeroTelefono">
                 Teléfono particular:
               </label>
-              <input id="numeroTelefono" type="tel" placeholder="Opcional"
-                {...register("personal.numeroTelefono", )
-                }
+              <input id="numeroTelefono" type="tel" placeholder="Opcional" {...register("personal.telefonos.1.numeroTelefono", ) }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",)}
               />
             </div>

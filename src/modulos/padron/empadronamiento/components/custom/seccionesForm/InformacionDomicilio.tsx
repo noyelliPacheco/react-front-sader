@@ -68,7 +68,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
             <label className="block mb-1 text-sm text-gray-500">Estado:</label>
             <div className="relative">
               <select
-                {...register("domicilio.idEntidad", { required: true,
+                {...register("domicilio.idEntidadFederativa", { required: true,
                   setValueAs: (v) => (v === "" ? undefined : Number(v)),
                 })}
                 className="block w-full appearance-none border-0 border-b border-gray-300 bg-transparent px-0 pb-1 pr-6 text-base text-gray-900 focus:border-blue-500 focus:outline-none"
@@ -84,7 +84,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
                 ▼
               </span>
             </div>
-            {errors.domicilio?.idEntidad && (
+            {errors.domicilio?.idEntidadFederativa && (
               <p className="text-red-500">El estado es requerido.</p>
             )}
           </div>

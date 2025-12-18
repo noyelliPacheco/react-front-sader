@@ -1,6 +1,6 @@
 
 import  { useState } from 'react'
-import type { CentroProduccion, UbicacionGeografica } from '../../../interfaces/centrosProducccion.interface';
+import type { CentroProduccion, UbicacionGeografica } from '../../../interfaces/centroProducccion.interface';
 import {  useCatalogosLocalidad, useCatalogosMunicipio} from '../../../hooks/useCatalogos';
 import { useFormContext } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -28,9 +28,9 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
       idCentroProduccion: undefined,
       idTipoCentroProduccion: undefined,
       tipoCentroProduccion: '',
-      nombreCentroProduccion: "",
+      nombre: "",
       idTipoDocumentoLegal: undefined,
-      idEntidadFederativa: undefined,
+      idEstado: undefined,
       idMunicipio: undefined,
       idLocalidad: undefined,
       tipoDocumentoLegal: "",
@@ -66,7 +66,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
       // Buscar nombres en los catálogos según los IDs del currentCentro
       const nombreEstado =
         (responseEntidadFederativa?.data ?? []).find(
-          (e) => e.id === currentCentro.idEntidadFederativa
+          (e) => e.id === currentCentro.idEstado
         )?.nombre ?? "";
     
       const nombreMunicipio =
@@ -112,7 +112,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
         shouldValidate: true,
       });
     };
-      const idEntidadCentro = Number(currentCentro?.idEntidadFederativa || 0);
+      const idEntidadCentro = Number(currentCentro?.idEstado || 0);
       const idMunicipioCentro = Number(currentCentro?.idMunicipio || 0);
 
 
@@ -154,7 +154,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
                     <div>
                       <span className="font-medium text-neutro-800">Nombre:</span>
                       <span className="ml-2 text-neutro-700">
-                        {centro.nombreCentroProduccion || 'N/A'}
+                        {centro.nombre || 'N/A'}
                       </span>
                     </div>
                     <div>
@@ -216,7 +216,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
                   <label className="block text-sm font-medium text-neutro-800 mb-2">
                     Nombre centro:
                   </label>
-                  <input type="text" value={currentCentro?.nombreCentroProduccion}
+                  <input type="text" value={currentCentro?.nombre}
                     onChange={(e) =>
                       setCurrentCentro((prev) => ({
                         ...(prev ?? emptyCentro),
@@ -251,7 +251,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
                   <label className="block text-sm font-medium text-neutro-800 mb-2">
                     Estado *
                   </label>
-                  <select value={currentCentro?.idEntidadFederativa}
+                  <select value={currentCentro?.idEstado}
                     onChange={(e) =>
                       setCurrentCentro((prev) => ({
                       ...(prev ?? emptyCentro), idEntidadFederativa: e.target.value === "" ? undefined : Number(e.target.value),})) }
@@ -270,7 +270,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
                   <label className="block text-sm font-medium text-neutro-800 mb-2">
                     Municipio *
                   </label>
-                  <select value={currentCentro?.idMunicipio} disabled={!currentCentro?.idEntidadFederativa || currentCentro.idEntidadFederativa === -1}
+                  <select value={currentCentro?.idMunicipio} disabled={!currentCentro?.idEstado || currentCentro.idEstado === -1}
                     onChange={(e) =>
                       setCurrentCentro((prev) => ({
                       ...(prev ?? emptyCentro), idMunicipio: e.target.value === "" ? undefined : Number(e.target.value),})) }
@@ -369,9 +369,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
                                 <label className="block text-xs font-medium text-neutro-700 mb-1">
                                   Longitud
                                 </label>
-                                <input
-                                  type="text"
-                                  value={geo.longitud ?? ""}
+                                <input type="text" value={geo.longitud ?? ""}
                                   onChange={(e) => {
                                     const val = e.target.value;
                                     setCurrentCentro((prev) => {
@@ -404,10 +402,8 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
                                   className="w-full px-3 py-2 border border-neutro-400 rounded-lg focus:ring-2 focus:ring-guinda-150 focus:border-transparent outline-none"
                                 >
                                   <option value="">Seleccione...</option>
-                                  <option value="PUNTO">Punto</option>
-                                  <option value="CENTROIDE">Centroide</option>
-                                  <option value="DOMICILIO">Domicilio</option>
-                                  <option value="OTRO">Otro</option>
+                                  <option value="POLIGONO">POLIGONO</option>
+                                  <option value="CENTRO">CENTRO</option>
                                 </select>
                               </div>
                             </div>

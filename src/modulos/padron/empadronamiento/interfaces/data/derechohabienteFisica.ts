@@ -1,4 +1,4 @@
-import type { ProductorResponse } from "../response/productorFisico.response";
+import type { ProductorCreateResponse, ProductorResponse } from "../response/productorFisico.response";
 
 export const dummyProductorResponse: ProductorResponse = {
   success: true,
@@ -165,4 +165,15 @@ export const dummyProductorResponse: ProductorResponse = {
       },
       estatusRenapo: "RCN"
   }
+}
+
+export const dummyCreateProductorResponse: ProductorCreateResponse = {
+   message: "Productor empadronado exitosamente",
+    success: true,
+    data: {
+        mensaje: "Productor empadronado exitosamente",
+        identificador: "00000032",
+        accion: "CREADO"
+    },
+    code: 200,
 }

@@ -1,11 +1,17 @@
 
 
-// export interface ProductorResponse{
-//     message: string;
-//     success: boolean;
-//     data:    Productor[] | [];
-//     code:    number;
-// }
+export interface ProductorCreateResponse{
+    message: string;
+    success: boolean;
+    data:    DataCreateProductor;
+    code:    number;
+}
+
+export interface DataCreateProductor {
+  mensaje:                string;
+  identificador:          string;
+  accion:                 string;
+}
 
 
 export interface ProductorResponse{
