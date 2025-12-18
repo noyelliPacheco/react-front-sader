@@ -2,7 +2,7 @@ import { xamanApi } from "@/api/xamanApi";
 import type { ProductorCreateResponse, ProductorResponse } from "../interfaces/response/productorFisico.response";
 import type { Productor } from "../interfaces/productor.interface";
 
-import { dummyCreateProductorResponse, dummyProductorResponse } from "../interfaces/data/derechohabienteFisica";
+//import { dummyCreateProductorResponse, dummyProductorResponse } from "../interfaces/data/derechohabienteFisica";
 
 
 
