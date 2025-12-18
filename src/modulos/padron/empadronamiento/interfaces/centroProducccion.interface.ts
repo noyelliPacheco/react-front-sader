@@ -1,3 +1,4 @@
+
 export interface CentroProduccion {
   idCentroProduccion:       number | undefined;
   nombre:                   string ;
@@ -12,13 +13,18 @@ export interface CentroProduccion {
   nombreEntidadFederativa:  string,
   nombreMunicipio:          string;
   nombreLocalidad:          string;
-  georeferencias?:          UbicacionGeografica[] | [];
+  georeferencias?:          GeoReferencia ;
 }
 
-export interface UbicacionGeografica {
-  idGeorreferencia :    number,
+export interface GeoReferencia {
+  coordenadasCentro: Coordenadas;
+  poligono: Coordenadas[];
+}
+
+export interface Coordenadas {
+  idGeorreferencia?:    number,
   latitud:              string | number;
   longitud:             string | number;
-  orden:                number | null;
-  tipoGeorreferencia:   string;
+  orden?:                number | null;
+  tipoGeorreferencia?:   string;
 }

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import type { ProductorResponse } from "../../../interfaces/response/productorFisico.response";
 import type { CatalogoResponse } from "../../../interfaces/response/catalogos.response";
-import type { CentroProduccion, UbicacionGeografica } from "../../../interfaces/centroProducccion.interface";
+import type { CentroProduccion, Coordenadas } from "../../../interfaces/centroProducccion.interface";
 import type { Documento } from "../../../interfaces/expediente.interface";
 import type { Productor } from "../../../interfaces/productor.interface";
 //import type { CentroProduccion } from "../../../interfaces/registroDeProduccion.interface";
@@ -78,9 +78,10 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
       setValue("personal.idEstadoCivil", infoPersonal.idEstadoCivil ?? '');
       setValue("personal.idEntidadNacimiento", infoPersonal.idEntidadFederativa ?? '');
       setValue("personal.idTipoIdentificacion", infoPersonal.idTipoIdentificacion ?? '');
-      setValue("personal.telefonoCelular", infoPersonal.numeroTelefonoAdicional ?? '');
-      setValue("personal.numeroTelefono", infoPersonal.numeroTelefono ?? '');
-      setValue("personal.idTipoTelefono", infoPersonal.idTelefono ?? '');
+      setValue("personal.telefonos.1.numeroTelefono", infoPersonal.numeroTelefonoAdicional ?? '');
+      setValue("personal.telefonos.0.numeroTelefono", infoPersonal.numeroTelefono ?? '');
+      setValue("personal.telefonos.0.idTelefono", 1 );
+      setValue("personal.telefonos.1.idTelefono", 2);
       setValue("personal.correoElectronico", infoPersonal.correoElectronico ?? '');
       setValue("personal.idNacionalidad", infoPersonal.idNacionalidad ?? '');
 
@@ -92,7 +93,7 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
       setValue("domicilio.idEntidadFederativa", domicilio.idEntidadFederativa ?? 0);
       setValue("domicilio.idMunicipio", domicilio.idMunicipio ?? 0);
       setValue("domicilio.idLocalidad", domicilio.idLocalidad ?? 0);
-      setValue("domicilio.centroIntegrador", domicilio.centroIntegrador ?? "");
+      //setValue("domicilio.centroIntegrador", domicilio.centroIntegrador ?? "");
       setValue("domicilio.idTipoAsentamiento", domicilio.idTipoAsentamiento ?? 0);
       setValue("domicilio.nombreAsentamiento", domicilio.nombreAsentamiento ?? "");
       setValue("domicilio.idTipoDireccion", domicilio.idTipoDireccion ?? 0);
@@ -118,7 +119,7 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
       setValue("registroDeProduccion.principalesCultivos.0.valorProduccion", registroProduccion.valorProduccion ?? '');
       //setValue("registroDeProduccion.precioCultivo", productor.registroProduccion.precioCultivo ?? '');
       //setValue("registroDeProduccion.precioCultivoEspecie", registroProduccion.precioCultivoEspecie ?? '');
-      setValue("registroDeProduccion.principalesCultivos.0.regimenHidrico", registroProduccion.idRegimenHidrico ?? '');
+      setValue("registroDeProduccion.principalesCultivos.0.idRegimenHidrico", registroProduccion.idRegimenHidrico ?? '');
 
       // Si tu API trae centros de producción, mapeas el arreglo completo:
       if (productor.centrosProduccion) {
@@ -136,19 +137,44 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
         nombreMunicipio: centro.nombreMunicipio,
         nombreLocalidad: centro.nombreLocalidad,
 
-        // 👇 AQUÍ VA LA GEOREFERENCIA
-        georeferencias: (centro.georreferencias ?? []).map( (geo): UbicacionGeografica => ({
-            idGeorreferencia: geo.idGeorreferencia,
-            latitud: geo.latitud,
-            longitud: geo.longitud,
-            orden: geo.orden,
-            tipoGeorreferencia: geo.tipoGeorreferencia,
-          })
-        ),
+        georeferencias:{
+          coordenadasCentro: (() => {
+            const geoCentro = (centro.georreferencias ?? []).find(
+              (geo) => geo.tipoGeorreferencia === "CENTRO"
+            );
+
+            return geoCentro
+              ? {
+                  idGeorreferencia: geoCentro?.idGeorreferencia ?? 0,
+                  latitud: geoCentro?.latitud ?? 0,
+                  longitud: geoCentro?.longitud ?? 0,
+                  orden: geoCentro?.orden ?? null,
+                  tipoGeorreferencia: geoCentro?.tipoGeorreferencia ?? "",
+                }
+              : {
+                  idGeorreferencia: 0,
+                  latitud: 0,
+                  longitud: 0,
+                  orden: null,
+                  tipoGeorreferencia: '',
+                };
+          })(),
+          poligono: (centro.georreferencias ?? [])
+          .filter((geo) => geo.tipoGeorreferencia === "POLIGONO")
+          .map( (geo): Coordenadas => ({
+              idGeorreferencia: geo.idGeorreferencia,
+              latitud: geo.latitud,
+              longitud: geo.longitud,
+              orden: geo.orden,
+              tipoGeorreferencia: geo.tipoGeorreferencia,
+            })
+          ),
+        }
+        
       })
   );
 
-  setValue("centroProduccion", centrosForm);
+  setValue("unidadProduccion", centrosForm);
 }
     }
 
@@ -156,7 +182,7 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
     if (productor.caracterizacion) {
       const caracterizacion = productor.caracterizacion;
       setValue("caracterizacion.perteneceAsociacionCampesina", String(caracterizacion.indAsociacionCampesinaOrganizacionProductores) ?? '');
-      setValue("caracterizacion.idAsociacion", caracterizacion.idTipoDiscapacidad ?? '');//Todo: revisar este nombre de variable
+      //setValue("caracterizacion.idAsociacion", caracterizacion.idTipoDiscapacidad ?? '');//Todo: revisar este nombre de variable
       setValue("caracterizacion.discapacidad", String(caracterizacion.indDiscapacidad )?? '');
       setValue("caracterizacion.idTipoDiscapacidad", caracterizacion.idTipoDiscapacidad ?? '');
       setValue("caracterizacion.idNivelEstudios", caracterizacion.idEscolaridad ?? '');
@@ -171,7 +197,7 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
     if (productor.expediente) {
       const expediente = productor.expediente;
 
-      setValue("expediente.idExpediente", expediente.idExpediente ?? 0);
+      setValue("expediente.idEstadoExpediente", expediente.idExpediente ?? 0);
 
      const expedienteForm: Documento[] = (expediente.documentos ?? []).map((documento) => ({
         idDocumento: documento.idDocumento ?? undefined,
@@ -184,7 +210,7 @@ export const VerificarIdentidad = ({ onNext,catalogos }: VerifyIdentityStepProps
         eliminado: false,
       }));
 
-setValue("expediente.documentos", expedienteForm);
+    setValue("expediente.documentosArreglo", expedienteForm);
     } 
   };  
 

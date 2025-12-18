@@ -1,5 +1,5 @@
 import type { Caracterizacion } from "./caracterizacion.interface";
-import type { CentroProduccion } from "./centroProducccion.interface";
+import type {  CentroProduccion } from "./centroProducccion.interface";
 import type { Domicilio } from "./domicilio.interface";
 import type { Expediente } from "./expediente.interface";
 import type { Personal } from "./personal.interface";
@@ -13,7 +13,7 @@ export interface Productor {
     registroDeProduccion : RegistroDeProduccion;
     caracterizacion : Caracterizacion;
     expediente : Expediente;
-    centroProduccion : CentroProduccion[];
+    unidadProduccion : CentroProduccion[];
     folio?: string;
 }
 

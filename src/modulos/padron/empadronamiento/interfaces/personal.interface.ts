@@ -6,25 +6,22 @@ export interface Personal {
   nombre: string;
   apellidoPaterno?: string;
   apellidoMaterno?: string;
-  fechaNacimiento: Date;
-
-  sexo: number | '';
+  fechaNacimiento: Date; 
 
   idEstadoCivil: number | '';
-  idEntidadNacimiento: number | '';
+  sexo: number | '';
   idTipoIdentificacion: number | '';
   numeroIdentificacion: string;
+  idEntidadNacimiento: number | '';
 
-  telefonoCelular: string;
+  correoElectronico: string;
+
   telefonos?: [{
     idTelefono: number;
     numeroTelefono : string;
   }, {
     idTelefono: number;
     numeroTelefono : string;
-  },]
-  numeroTelefono: string;
-  idTipoTelefono: number | '';
-  correoElectronico: string;
+  },]  
   idNacionalidad: number | '';
 }

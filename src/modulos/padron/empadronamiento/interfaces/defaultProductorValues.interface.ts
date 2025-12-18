@@ -17,9 +17,13 @@ export const defaultProductorValues: Productor = {
     idEstadoCivil: "",
     idEntidadNacimiento: "",
     idTipoIdentificacion: "",
-    telefonoCelular: "",
-    numeroTelefono: "",
-    idTipoTelefono: "",
+    telefonos: [{
+    idTelefono: 1,
+    numeroTelefono : '',
+  }, {
+    idTelefono: 2,
+    numeroTelefono : '',
+  },]  ,
     correoElectronico: "",
     idNacionalidad: "",
     numeroIdentificacion:""
@@ -33,8 +37,8 @@ export const defaultProductorValues: Productor = {
     municipioNombre: "",
     idLocalidad: "",
     localidadNombre: "",
-    idCentroIntegrador: 0,
-    centroIntegrador: "",
+    //idCentroIntegrador: 0,
+    //centroIntegrador: "",
     idTipoAsentamiento: 0,
     nombreAsentamiento: "",
     idTipoDireccion: 0,
@@ -57,7 +61,7 @@ export const defaultProductorValues: Productor = {
     volumenProduccion: "",
     valorProduccion: "",
     precioCultivoEspecie: 0,
-    regimenHidrico: 0,
+    idRegimenHidrico: 0,
   }],
 
     idSectorAgroalimentario: 0,
@@ -68,7 +72,7 @@ export const defaultProductorValues: Productor = {
 
   caracterizacion: {
     perteneceAsociacionCampesina: '',
-    idAsociacion:0,
+    //idAsociacion:0,
     asociacionCampesina: '',
 
     discapacidad: '',
@@ -85,9 +89,19 @@ export const defaultProductorValues: Productor = {
   }, // basado en Caracterizacion :contentReference[oaicite:4]{index=4}
 
   expediente: {
-    idExpediente: null,
-    documentos: [],
+    idEstadoExpediente: null,
+    documentosArreglo: [],
+    documentos: {
+    idTipoDocumentoCredencialElector: 1,
+    idTipoDocumentoComprobanteDomicilio: 2,
+    idTipoDocumentoLegalPropiedad: 3,
+    idTipoDocumentoArrendatario: 4,
+    idTipoDocumentoFormatoInscripcionPgn: 5,
+    idTipoDocumentoPermisoPesca: 6,
+    idTipoDocumentoRfc: 7,
+    idTipoDocumentoActaConstitutiva: 8,
+  }
   }, // basado en Expediente :contentReference[oaicite:5]{index=5}
 
-  centroProduccion: [], // basado en Productor :contentReference[oaicite:6]{index=6}
+  unidadProduccion: [], // basado en Productor :contentReference[oaicite:6]{index=6}
 };

@@ -369,9 +369,9 @@ export const InformacionPersonal = ( { onNext, onBack, catalogos }: VerifyIdenti
                   {required:true,})
                 }
                 className={ cn("block w-full border-0 border-b border-gray-300 px-0 pb-1 text-base text-gray-900 focus:border-blue-500 focus:outline-none",{
-                  "border-red-500":errors.personal?.telefonoCelular }) }                
+                  "border-red-500":errors.personal?.telefonos?.[0]?.numeroTelefono }) }                
               />
-              { errors.personal?.telefonoCelular && (<p className="text-red-500">El número de celular es requerido.</p>) }
+              { errors.personal?.telefonos?.[0]?.numeroTelefono && (<p className="text-red-500">El número de celular es requerido.</p>) }
             </div>
 
             {/* <div className="mb-4">

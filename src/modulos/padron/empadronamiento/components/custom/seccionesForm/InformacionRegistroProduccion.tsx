@@ -117,7 +117,7 @@ export const InformacionRegistroProduccion= ({ onNext,onBack,catalogos }: Verify
                     </label>
                     <div className="relative">
                     <select
-                        {...register("registroDeProduccion.principalesCultivos.0.regimenHidrico", 
+                        {...register("registroDeProduccion.principalesCultivos.0.idRegimenHidrico", 
                             {
                                 required:true,
                             })

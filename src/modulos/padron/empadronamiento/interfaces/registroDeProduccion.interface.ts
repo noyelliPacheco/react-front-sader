@@ -12,7 +12,7 @@ export interface RegistroDeProduccion {
     volumenProduccion: string |"";
     valorProduccion: string |"";
     precioCultivoEspecie: number;
-    regimenHidrico: number;
+    idRegimenHidrico: number;
   }]
 }
 

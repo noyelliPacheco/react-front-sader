@@ -144,7 +144,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
           </div>
 
           {/* Centro integrador */}
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label className="block mb-1 text-sm text-gray-500">
               Centro integrador:
             </label>
@@ -159,7 +159,7 @@ export const InformacionDomicilio = ({ onNext, onBack, catalogos, }: Informacion
                 El centro integrador es requerido.
               </p>
             )}
-          </div>
+          </div> */}
         </div>
       </fieldset>
 

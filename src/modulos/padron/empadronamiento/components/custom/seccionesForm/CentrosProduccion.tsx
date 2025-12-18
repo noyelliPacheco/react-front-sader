@@ -1,6 +1,6 @@
 
 import  { useState } from 'react'
-import type { CentroProduccion, UbicacionGeografica } from '../../../interfaces/centroProducccion.interface';
+import type { CentroProduccion,  } from '../../../interfaces/centroProducccion.interface';
 import {  useCatalogosLocalidad, useCatalogosMunicipio} from '../../../hooks/useCatalogos';
 import { useFormContext } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -25,28 +25,36 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
     
     
     const emptyCentro: CentroProduccion = {
-      idCentroProduccion: undefined,
-      idTipoCentroProduccion: undefined,
-      tipoCentroProduccion: '',
-      nombre: "",
-      idTipoDocumentoLegal: undefined,
-      idEstado: undefined,
-      idMunicipio: undefined,
-      idLocalidad: undefined,
-      tipoDocumentoLegal: "",
-      nombreEntidadFederativa: "",
-      nombreMunicipio: "",
-      nombreLocalidad: "",
-      georeferencias: [],
+        idCentroProduccion:undefined,
+        idTipoCentroProduccion: undefined,
+        tipoCentroProduccion: '',
+        nombre: "",
+        idTipoDocumentoLegal: undefined,
+        idEstado: undefined,
+        idMunicipio: undefined,
+        idLocalidad: undefined,
+        tipoDocumentoLegal: "",
+        nombreEntidadFederativa: "",
+        nombreMunicipio: "",
+        nombreLocalidad: "",
+        georeferencias: {
+          coordenadasCentro: {
+            idGeorreferencia:    0,
+            latitud:'',
+            longitud:'',
+            orden:null,
+            tipoGeorreferencia: '',
+          },
+          poligono: [],
+        },
     };
 
-    const createEmptyGeo = (orden: number): UbicacionGeografica => ({
-      idGeorreferencia: 0,        // 0 temporal (backend suele asignar)
-      latitud: "",
-      longitud: "",
-      orden,
-      tipoGeorreferencia: "",
-    });
+    // const createEmptyGeo = (orden: number): Coordenadas => ({      
+    //       tipoGeorreferencia:'',
+    //       latitud: 0,
+    //       orden,
+    //       longitud: 0,
+    // });
     const [currentCentro, setCurrentCentro] = useState<CentroProduccion | null>( emptyCentro);
     const handleAddCentro = () => {
         setEditingIndex(null);
@@ -54,7 +62,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
         setShowModal(true);
     };
     
-    const arregloCentrosProduccion =  watch("centroProduccion") ?? [];
+    const arregloCentrosProduccion =  watch("unidadProduccion") ?? [];
     
     const handleEditCentro = (index: number) => {
         setEditingIndex(index);
@@ -96,7 +104,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
       }
     
       // Guardar en el form
-      setValue("centroProduccion", updatedCentros, {
+      setValue("unidadProduccion", updatedCentros, {
         shouldDirty: true,
         shouldValidate: true,
       });
@@ -107,7 +115,7 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
     const handleDeleteCentro = (index: number) => {
       const updatedCentros = arregloCentrosProduccion.filter((_, i) => i !== index);
     
-      setValue("centroProduccion", updatedCentros, {
+      setValue("unidadProduccion", updatedCentros, {
         shouldDirty: true,
         shouldValidate: true,
       });
@@ -303,41 +311,60 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
                   </select>
                 </div>
                 {/* ===================== Georreferencias ===================== */}
+
                 <div className="md:col-span-2">
-                  <div className="flex items-center justify-between">
-                    <label className="block text-sm font-medium text-neutro-800">
-                      Ubicación geográfica (georreferencias)
+                  <div>
+                    <label className="block text-sm font-medium text-neutro-800 mb-2">
+                      Latitud:
                     </label>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCurrentCentro((prev) => {
-                          const base = prev ?? emptyCentro;
-                          const geos = Array.isArray(base.georeferencias) ? base.georeferencias : [];
-                          const nextOrden = geos.length + 1;
-
-                          return {
-                            ...base,
-                            georeferencias: [...geos, createEmptyGeo(nextOrden)],
-                          };
-                        });
-                      }}
-                      className="px-3 py-2 bg-guinda-150 text-neutro-100 rounded-lg hover:bg-guinda-160 transition-colors flex items-center gap-2"
-                    >
-                      <Plus className="w-4 h-4" />
-                      Agregar ubicación
-                    </button>
+                    <input type="text" value={currentCentro?.georeferencias?.coordenadasCentro.latitud}
+                      onChange={(e) =>
+                        setCurrentCentro((prev) => ({
+                          ...(prev ?? emptyCentro),
+                          latitud: e.target.value,
+                        }))
+                      }
+                      placeholder="Ejemplo: Rancho escondido"
+                      className="w-full px-4 py-2 border border-neutro-400 rounded-lg focus:ring-2 focus:ring-guinda-150 focus:border-transparent outline-none"
+                    />
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium text-neutro-800 mb-2">
+                      Longitud:
+                    </label>
+                    <input type="text" value={currentCentro?.georeferencias?.coordenadasCentro.longitud}
+                      onChange={(e) =>
+                        setCurrentCentro((prev) => ({
+                          ...(prev ?? emptyCentro),
+                          longitud: e.target.value,
+                        }))
+                      }
+                      placeholder="Ejemplo: Rancho escondido"
+                      className="w-full px-4 py-2 border border-neutro-400 rounded-lg focus:ring-2 focus:ring-guinda-150 focus:border-transparent outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-neutro-700 mb-1">
+                      Tipo de georreferencia
+                    </label>
+                    <select value={currentCentro?.idLocalidad} disabled={!currentCentro?.idMunicipio || currentCentro.idMunicipio === -1}
+                    onChange={(e) => setCurrentCentro((prev) => ({ ...(prev ?? emptyCentro), idLocalidad: e.target.value === "" ? undefined : Number(e.target.value),})) }
+
+                    className="w-full px-4 py-2 border border-neutro-400 rounded-lg focus:ring-2 focus:ring-guinda-150 focus:border-transparent outline-none" >
+                      <option value="CENTRO">CENTRO</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="md:col-span-2">
 
                   {/* Lista */}
                   <div className="mt-3 space-y-3">
-                    {(currentCentro?.georeferencias ?? []).length === 0 ? (
+                    {(currentCentro?.georeferencias?.poligono ?? []).length === 0 ? (
                       <div className="text-sm text-neutro-600">
                         No hay ubicaciones registradas.
                       </div>
                     ) : (
-                      (currentCentro?.georeferencias ?? []).map((geo, idx) => (
+                      (currentCentro?.georeferencias?.poligono ?? []).map((geo, idx) => (
                         <div
                           key={`${geo.idGeorreferencia}-${idx}`}
                           className="border border-neutro-300 rounded-lg p-3 bg-white"
@@ -355,12 +382,25 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
                                     const val = e.target.value;
                                     setCurrentCentro((prev) => {
                                       const base = prev ?? emptyCentro;
-                                      const geos = [...(base.georeferencias ?? [])];
+                                      const geos = [...(base.georeferencias?.poligono ?? [])];
                                       geos[idx] = { ...geos[idx], latitud: val };
-                                      return { ...base, georeferencias: geos };
+                                      return { ...base, georeferencias: {
+                                          ...(base.georeferencias ?? {
+                                            coordenadasCentro: {
+                                              idGeorreferencia: 0,
+                                              latitud: "",
+                                              longitud: "",
+                                              orden: null,
+                                              tipoGeorreferencia: "",
+                                            },
+                                            poligono: [],
+                                          }),
+                                          poligono: geos,
+                                        },
+                                      };
                                     });
                                   }}
-                                  placeholder="Ej: 20.659699"
+                                  placeholder="Ej: -103.349609"
                                   className="w-full px-3 py-2 border border-neutro-400 rounded-lg focus:ring-2 focus:ring-guinda-150 focus:border-transparent outline-none"
                                 />
                               </div>
@@ -374,14 +414,29 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
                                     const val = e.target.value;
                                     setCurrentCentro((prev) => {
                                       const base = prev ?? emptyCentro;
-                                      const geos = [...(base.georeferencias ?? [])];
+                                      const geos = [...(base.georeferencias?.poligono ?? [])];
                                       geos[idx] = { ...geos[idx], longitud: val };
-                                      return { ...base, georeferencias: geos };
-                                    });
-                                  }}
-                                  placeholder="Ej: -103.349609"
-                                  className="w-full px-3 py-2 border border-neutro-400 rounded-lg focus:ring-2 focus:ring-guinda-150 focus:border-transparent outline-none"
-                                />
+                                      return {
+                                          ...base,
+                                          georeferencias: {
+                                            ...(base.georeferencias ?? {
+                                              coordenadasCentro: {
+                                                idGeorreferencia: 0,
+                                                latitud: "",
+                                                longitud: "",
+                                                orden: null,
+                                                tipoGeorreferencia: "",
+                                              },
+                                              poligono: [],
+                                            }),
+                                            poligono: geos,
+                                          },
+                                        };
+                                      });
+                                    }}
+                                    placeholder="Ej: -103.349609"
+                                    className="w-full px-3 py-2 border border-neutro-400 rounded-lg focus:ring-2 focus:ring-guinda-150 focus:border-transparent outline-none"
+                                  />
                               </div>
 
                               <div>
@@ -394,36 +449,53 @@ export const CentrosProduccion = ({ onNext,onBack,catalogos }: VerifyIdentitySte
                                     const val = e.target.value;
                                     setCurrentCentro((prev) => {
                                       const base = prev ?? emptyCentro;
-                                      const geos = [...(base.georeferencias ?? [])];
+                                      const geos = [...(base.georeferencias?.poligono ?? [])];
                                       geos[idx] = { ...geos[idx], tipoGeorreferencia: val };
-                                      return { ...base, georeferencias: geos };
+                                      return {
+                                        ...base,
+                                        georeferencias: {
+                                          ...(base.georeferencias ?? {
+                                            coordenadasCentro: { idGeorreferencia: 0, latitud: "", longitud: "", orden: null, tipoGeorreferencia: "" },
+                                            poligono: [],
+                                          }),
+                                          poligono: geos,
+                                        },
+                                      };
                                     });
                                   }}
                                   className="w-full px-3 py-2 border border-neutro-400 rounded-lg focus:ring-2 focus:ring-guinda-150 focus:border-transparent outline-none"
                                 >
-                                  <option value="">Seleccione...</option>
                                   <option value="POLIGONO">POLIGONO</option>
-                                  <option value="CENTRO">CENTRO</option>
                                 </select>
                               </div>
                             </div>
 
-                            <button
-                              type="button"
+                            <button type="button"
                               onClick={() => {
                                 setCurrentCentro((prev) => {
                                   const base = prev ?? emptyCentro;
-                                  const geos = [...(base.georeferencias ?? [])].filter((_, i) => i !== idx);
+
+                                  const geos = [...(base.georeferencias?.poligono ?? [])].filter((_, i) => i !== idx);
 
                                   // re-orden opcional
                                   const geosReorden = geos.map((g, i) => ({ ...g, orden: i + 1 }));
 
-                                  return { ...base, georeferencias: geosReorden };
+                                  return {
+                                    ...base,
+                                    georeferencias: {
+                                      ...(base.georeferencias ?? {
+                                        coordenadasCentro: { idGeorreferencia: 0, latitud: "", longitud: "", orden: null, tipoGeorreferencia: "" },
+                                        poligono: [],
+                                      }),
+                                      poligono: geosReorden,
+                                    },
+                                  };
                                 });
                               }}
                               className="p-2 text-validation-mistake hover:bg-validation-mistake-light rounded transition-colors"
                               title="Eliminar ubicación"
                             >
+
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
