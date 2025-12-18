@@ -2,6 +2,8 @@ import type { Productor } from "./productor.interface";
 
 
 export const defaultProductorValues: Productor = {
+  idPersona: 0,
+  folio: '',
   personal: {
     idTipoPersona: "",
     curp: "",
@@ -20,11 +22,12 @@ export const defaultProductorValues: Productor = {
     idTipoTelefono: "",
     correoElectronico: "",
     idNacionalidad: "",
+    numeroIdentificacion:""
   }, // basado en Personal :contentReference[oaicite:1]{index=1}
 
   domicilio: {
     codigoPostal: null,
-    idEntidad: "",
+    idEntidadFederativa: "",
     entidadNombre: "",
     idMunicipio: "",
     municipioNombre: "",
@@ -43,31 +46,42 @@ export const defaultProductorValues: Productor = {
     longitud: "",
   }, // basado en Domicilio :contentReference[oaicite:2]{index=2}
 
-  registroDeProduccion: {
-    idSectorAgroalimentario: 0,
-    idCultivosEspecies: "",
-    idTipoCultivo: 0,
+  registroDeProduccion: {   
+
+  principalesCultivos:[{
+    idCultivoEspecie : 0,  
+    idTipoCultivo : 0,
     superficie: "",
-    claveUppPsg: "",
-    cantidadVientresColmenas: "",
-    cantidadCabezas: "",
+    numeroVientresColmenas: "",
+    totalCabezasHato: "",
     volumenProduccion: "",
     valorProduccion: "",
-    precioCultivo: 0,
     precioCultivoEspecie: 0,
     regimenHidrico: 0,
+  }],
+
+    idSectorAgroalimentario: 0,
+    idCicloAgricola: 0,
+    claveUpp: "",
+    
   }, // basado en RegistroDeProduccion :contentReference[oaicite:3]{index=3}
 
   caracterizacion: {
-    tieneAsociacion: "",
-    idAsociacion: "",
-    tieneDiscapacidad: "",
-    idDiscapacidad: "",
-    pertenecePoblacionIndigena: "",
-    idPoblacionIndigena: "",
-    idRegimenPropiedad: "",
-    nivelEstudios: "",
-    hablaEspañol: "",
+    perteneceAsociacionCampesina: '',
+    idAsociacion:0,
+    asociacionCampesina: '',
+
+    discapacidad: '',
+    idTipoDiscapacidad: '',
+
+    declaratoriaIndigena: '',
+    idTipoDeclaratoriaIndigena:  '',
+
+    lenguaIndigena: 0,
+
+    idRegimenPropiedad: 0,
+    idNivelEstudios: 0,  
+    hablaEspanol: ''
   }, // basado en Caracterizacion :contentReference[oaicite:4]{index=4}
 
   expediente: {
@@ -76,5 +90,4 @@ export const defaultProductorValues: Productor = {
   }, // basado en Expediente :contentReference[oaicite:5]{index=5}
 
   centroProduccion: [], // basado en Productor :contentReference[oaicite:6]{index=6}
-  folio: "",
 };
