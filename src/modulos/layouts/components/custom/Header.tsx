@@ -2,16 +2,15 @@
 
 import { Bell, ChevronDown, User, Settings, LogOut } from "lucide-react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useAuth } from "@/modulos/auth/admin/auth.admin";
 
 export function Header() {
+
+  const { user, logout, } = useAuth();
+
   const notifications = [
     { id: 1, title: "Nueva actualización disponible", time: "Hace 5 min", unread: true },
     { id: 2, title: "Tu reporte está listo", time: "Hace 1 hora", unread: true },
@@ -63,15 +62,15 @@ export function Header() {
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-2 rounded-md p-2 hover:bg-accent transition-colors outline-none">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-medium">
-                JD
+                {user?.fullName.substring(0,2).toLocaleUpperCase() }
               </div>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>
                 <div className="flex flex-col gap-1">
-                  <span className="font-medium">John Doe</span>
-                  <span className="text-xs font-normal text-muted-foreground">john@example.com</span>
+                  <span className="font-medium">{user?.email.toLocaleUpperCase()}</span>
+                  <span className="text-xs font-normal text-muted-foreground">{user?.fullName.toLocaleUpperCase()}</span>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -85,8 +84,10 @@ export function Header() {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem variant="destructive" className="gap-2 cursor-pointer">
-                <LogOut className="h-4 w-4" />
-                Cerrar sesión
+                <button onClick={logout}>
+                  <LogOut className="h-4 w-4" />
+                  Cerrar sesión
+                </button>  
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

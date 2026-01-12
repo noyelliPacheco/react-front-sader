@@ -1,6 +1,18 @@
 export interface Expediente {
-  idExpediente?: number | null; // o number | null
-  documentos: Documento[];
+  idEstadoExpediente?: number | null; // o number | null
+  observaciones?:string | undefined;
+  documentosArreglo: Documento[];
+
+  documentos: {
+    idTipoDocumentoCredencialElector: number,
+    idTipoDocumentoComprobanteDomicilio: number,
+    idTipoDocumentoLegalPropiedad: number,
+    idTipoDocumentoArrendatario: number,
+    idTipoDocumentoFormatoInscripcionPgn: number,
+    idTipoDocumentoPermisoPesca: number,
+    idTipoDocumentoRfc: number,
+    idTipoDocumentoActaConstitutiva: number,
+  }
 }
 
 export interface Documento {

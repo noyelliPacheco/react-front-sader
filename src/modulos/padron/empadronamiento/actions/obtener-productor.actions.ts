@@ -1,21 +1,16 @@
 import { xamanApi } from "@/api/xamanApi";
-import type { ProductorResponse } from "../interfaces/response/productorFisico.response";
+import type { ProductorCreateResponse, ProductorResponse } from "../interfaces/response/productorFisico.response";
 import type { Productor } from "../interfaces/productor.interface";
 
-import { dummyProductorResponse } from "../interfaces/data/derechohabienteFisica";
+//import {  dummyProductorResponse } from "../interfaces/data/derechohabienteFisica";
 
 
 
 export  const obtenerProductorFisico = async(curp: string): Promise<ProductorResponse> =>{
 
-    //const { data } = await xamanApi.get<ProductorResponse>(`api/v1/padron/consulta/persona/fisica/${curp}`);
-    const data = dummyProductorResponse;
-    // const data = {
-    //     message: '¡¡Esto salio mal!!',
-    //     success: true,
-    //     data: [],
-    //     code:    500
-    // }
+    const { data } = await xamanApi.get<ProductorResponse>(`api/v1/padron/consulta/persona/fisica/${curp}`);
+    //const data = dummyProductorResponse;
+    
     console.log(data);
 
     return data;
@@ -35,13 +30,14 @@ export  const obtenerProductorMoral = async(curp: string): Promise<ProductorResp
     return data;
 };
 
-export const crearRegistroProductorFisico = async ( formProductor: Productor ): Promise<ProductorResponse> => {
-    const { data } = await xamanApi.post<ProductorResponse>("/v1/padron/empadronarProductor/",formProductor);
-
-    return data;
+export const crearRegistroProductorFisico = async (  formProductor: FormData ): Promise<ProductorCreateResponse> => {
+    
+  const { data } = await xamanApi.post<ProductorCreateResponse>( "/v1/padron/empadronarProductor/", formProductor, );
+  console.log('Registro del productor con persona Fisica  '+ data);
+  return data;
 };
 
-export  const crearRegistroProductorMoral = async(formProductor: Productor): Promise<ProductorResponse> =>{
-    const { data } = await xamanApi.post<ProductorResponse>("/v1/padron/empadronarProductor/",formProductor);
+export  const crearRegistroProductorMoral = async(formProductor: Productor): Promise<ProductorCreateResponse> =>{
+    const { data } = await xamanApi.post<ProductorCreateResponse>("/v1/padron/empadronarProductor/",formProductor);
     return data;
 };

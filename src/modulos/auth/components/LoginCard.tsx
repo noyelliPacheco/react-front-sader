@@ -1,30 +1,49 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff } from "lucide-react";
+// import { Eye, EyeOff } from "lucide-react";
+// import { loginAction } from "../actions/login.action";
+import { useNavigate } from "react-router";
+import { useAuth } from "../admin/auth.admin";
+import { toast } from "sonner";
 
 export const LoginCard = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  //const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Login attempt", { username, password });
-  };
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const [isPosting, setIsPosting] = useState(false);//Bloqueo del botón 
+
+  const handleSubmit = async( event: FormEvent<HTMLFormElement>) =>{
+    event.preventDefault();//Evita la propagación por defecto del formulario
+    setIsPosting(true);
+    
+    const formData = new FormData(event.target as HTMLFormElement);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    const isValid = await login(email, password);
+      //Camino feliz
+      if(isValid){
+        console.log('Redireccionando al Home');     
+        navigate('/admin');
+        return;
+      }
+      toast.error('Credenciales inválidas. Por favor, intenta de nuevo.');
+      setIsPosting(false); 
+    } 
 
   return (
     <div className="w-full max-w-md bg-card rounded-2xl shadow-2xl p-8">
-      <form onSubmit={handleSubmit} className="space-y-6">
+
+      <form onSubmit={ (e)=> handleSubmit(e) } className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="username" className="text-sm font-semibold text-foreground">
             Usuario
           </Label>
-          <Input id="username" type="text" placeholder="Nombre de usuario" value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="h-12 bg-input border-border rounded-lg"
-          />
+          <Input id="username" type="text" placeholder="Nombre de usuario" name="email" required className="h-12 bg-input border-border rounded-lg"/>
         </div>
 
         <div className="space-y-2">
@@ -32,16 +51,9 @@ export const LoginCard = () => {
             Contraseña
           </Label>
           <div className="relative">
-            <Input id="password" type={showPassword ? "text" : "password"} placeholder="Contraseña" value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="h-12 bg-input border-border rounded-lg pr-12"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            <Input id="password" placeholder="Contraseña" name="password" required className="h-12 bg-input border-border rounded-lg pr-12"/>
+            <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors" >
+              
             </button>
           </div>
         </div>
@@ -51,8 +63,8 @@ export const LoginCard = () => {
             ¿Olvidaste tu contraseña?
           </a>
         </div>
-
-        <Button type="submit" className="w-full h-12 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-lg font-semibold" >
+        {/** Deshabilitamos el botón si el posting esta en true*/}
+        <Button type="submit" disabled={isPosting} className="w-full h-12 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-lg font-semibold" >
           Iniciar sesión
         </Button>
 
@@ -62,6 +74,7 @@ export const LoginCard = () => {
           </a>
         </div>
       </form>
+
     </div>
   );
 };

@@ -7,22 +7,7 @@ import type { CatalogoResponse } from "../interfaces/response/catalogos.response
 
 export  const obtenerTipoPersona = async(): Promise<CatalogoResponse> =>{
 
-    //const { data } = await xamanApi.get<CatalogoResponse>('/api/v1/catalogos/tipo-persona');
-    const data = {
-        message: '',
-        success: true,
-        data: [{
-            id: 1,
-            nombre : 'Persona física',
-            clave : 'F',
-        },
-        {
-            id: 2,
-            nombre : 'Persona moral',
-            clave : 'M',
-        }],
-        code:    500
-    }
+    const { data } = await xamanApi.get<CatalogoResponse>('/api/v1/catalogos/tipo-persona');   
 
     return data;
 };
@@ -77,14 +62,15 @@ export  const obtenerTipoTelefono = async(): Promise<CatalogoResponse> =>{
 };
 
 export  const obtenerTipoRegimen = async(): Promise<CatalogoResponse> =>{
-    const { data } = await xamanApi.get<CatalogoResponse>('/api/v1/catalogos/tipo-regimen');
+    const { data } = await xamanApi.get<CatalogoResponse>('/api/v1/catalogos/tipo-regimen-propiedad');
 
     return data;
 };
 
 export  const obtenerTipoDocumentoLegal = async(): Promise<CatalogoResponse> =>{
     const { data } = await xamanApi.get<CatalogoResponse>('/api/v1/catalogos/tipo-documento-legal');
-
+    
+    console.log(data);
     return data;
 };
 
@@ -156,7 +142,7 @@ export  const obtenerCicloAgricola = async(): Promise<CatalogoResponse> =>{
 
     return data;
 };
-
+//Este campo es un text no un select pero queda pendiente confirmarlo
 export  const obtenerCentroIntegrador = async(): Promise<CatalogoResponse> =>{
     const { data } = await xamanApi.get<CatalogoResponse>('/api/v1/catalogos/entidad-federativa');
 
@@ -164,6 +150,11 @@ export  const obtenerCentroIntegrador = async(): Promise<CatalogoResponse> =>{
 };
 
 export  const obtenerPoblacionIndigena = async(): Promise<CatalogoResponse> =>{
+    const { data } = await xamanApi.get<CatalogoResponse>('/api/v1/catalogos/tipo-declaratoria-indigena');
+    return data;
+};
+//Este campo es un text no un select pero queda pendiente confirmarlo
+export  const obtenerLengua = async(): Promise<CatalogoResponse> =>{
     const { data } = await xamanApi.get<CatalogoResponse>('/api/v1/catalogos/entidad-federativa');
 
     return data;
@@ -172,5 +163,9 @@ export  const obtenerPoblacionIndigena = async(): Promise<CatalogoResponse> =>{
 export  const obtenerDocumentoExpediente = async(): Promise<CatalogoResponse> =>{
     const { data } = await xamanApi.get<CatalogoResponse>('/api/v1/catalogos/tipo-documento-expediente');
     //const data = DocumentoExpedienteDummy;
+    return data;
+};
+export  const obtenerTipoCentroProduccion = async(): Promise<CatalogoResponse> =>{
+    const { data } = await xamanApi.get<CatalogoResponse>('/api/v1/catalogos/tipo-centro-produccion');
     return data;
 };

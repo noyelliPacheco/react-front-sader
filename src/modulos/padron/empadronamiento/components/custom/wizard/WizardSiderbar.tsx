@@ -1,4 +1,3 @@
-import {  Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type WizardStep = {
@@ -76,11 +75,8 @@ export function WizardSidebar({ steps, currentStep, onStepClick }: WizardSidebar
                         isPending && "text-muted-foreground"
                       )}
                     >
-                      Paso {step.id}
                     </span>
-                    {isComplete && (
-                      <Circle className="w-2 h-2 fill-success text-success" />
-                    )}
+                    
                   </div>
                   <h3 className={cn( "text-sm font-medium transition-colors duration-300",
                       isComplete && "text-card-foreground",

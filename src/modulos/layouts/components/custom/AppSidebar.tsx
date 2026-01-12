@@ -1,21 +1,10 @@
-import { FileText, 
-  Home, 
-  Settings, 
-  ChevronRight,
-  Folder,
-  ClipboardList, } from "lucide-react"
+import { FileText,  Home,  Settings,  ChevronRight, IdCardLanyard,  OctagonX, } from "lucide-react"
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  useSidebar,
+  Sidebar, SidebarContent, SidebarGroup,
+  SidebarGroupContent, SidebarGroupLabel,
+  SidebarHeader, SidebarMenu,
+  SidebarMenuButton, SidebarMenuItem,
+  SidebarMenuSub, useSidebar,
 } from "@/components/ui/sidebar"
 import agriculturaLogoBlanco from "@/assets/img/layout/logo_agricultura_blanco-01.svg";
 import agriculturaIcono from "@/assets/img/layout/escudo_25-01.svg";
@@ -32,27 +21,25 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   {
     title: "Inicio",
-    url: "/",
+    url: "/admin",
     icon: Home,
-  },
-  {
+  },{
     title: "Padrón",
     icon: FileText,
     items: [
       {
         title: "Agregar|Actualizar ",
-        url: "/",
-        icon: ClipboardList,
+        url: "empadronamiento/agregarActualizar",
+        icon: IdCardLanyard,
       },
       {
         title: "Eliminar",
-        icon: Folder,
-        url: "/eliminar/empadronamiento", 
+        icon: OctagonX,
+        url: "empadronamiento/eliminar", 
         
       },
     ],
-  },
-  {
+  },{
     title: "Configuración",
     url: "/settings",
     icon: Settings,

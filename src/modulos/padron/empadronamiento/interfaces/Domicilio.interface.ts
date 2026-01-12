@@ -1,23 +1,25 @@
 export interface Domicilio {
+
+  idEntidadFederativa: number | null;
+  idMunicipio: number | null;
+  idLocalidad: number | null;
   codigoPostal: number | null;
-  idEntidad: number | "";
-  entidadNombre?: string;
-  idMunicipio: number | "";
-  municipioNombre?: string;
-  idLocalidad: number | "";
-  localidadNombre?: string;
-  idCentroIntegrador : number;
-  centroIntegrador : string;
-
-  idTipoAsentamiento : number;
+  idTipoAsentamiento : number | null;
   nombreAsentamiento : string;
-
-  idTipoDireccion : number;
-  idTipoVialidad : number;
+  idTipoDireccion : number | null;
+  idTipoVialidad : number | null;
   nombreVialidad : string;
-  noExterior: number | null;
-  noInterior: number | null; 
+  noExterior: string ;
+  noInterior: string; 
   
-  latitud?: string;
-  longitud?: string;
+  latitud?: number|null;
+  longitud?: number|null;
+
+  entidadNombre?: string;  
+  municipioNombre?: string;  
+  localidadNombre?: string;
+  
+  
+  /*idCentroIntegrador : number;
+  centroIntegrador? : string; */
 }

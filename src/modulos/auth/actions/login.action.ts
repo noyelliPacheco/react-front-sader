@@ -1,21 +1,24 @@
-import { xamanApi } from '@/api/xamanApi';
+//import { xamanApi } from '@/api/xamanApi';
 import type { AuthResponse } from '../interfaces/auth.response';
+import { toast } from 'sonner';
+import { LoginResponse } from '../interfaces/data/login.data';
 
-export const loginAction = async (
-  email: string,
-  password: string
-): Promise<AuthResponse> => {
+
+export const loginAction = async ( email: string, password: string ): Promise<AuthResponse> => {
   try {
-    const { data } = await xamanApi.post<AuthResponse>('/auth/login', {
+    const informacion = email + password;
+    console.log('loginAction - informacion:', informacion);
+    //Consumir el endpoint de login
+    /*const { data } = await xamanApi.post<AuthResponse>('/auth/login', {
       email,
       password,
-    });
+    });*/
 
-    // console.log(data);
-
+    const data = LoginResponse;
+    
     return data;
   } catch (error) {
-    console.log(error);
+    toast.error('Correo o/y contraseña no válidos');
     throw error;
   }
 };

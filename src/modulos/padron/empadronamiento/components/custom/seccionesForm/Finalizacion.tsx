@@ -1,5 +1,5 @@
 
-import { CheckCircle2,CircleCheckBig, Download, SmilePlus } from 'lucide-react'
+import { CheckCircle2,CircleCheckBig, Download, } from 'lucide-react'
 import { useFormContext } from 'react-hook-form';
 import type { Productor } from '../../../interfaces/productor.interface';
 import { PDFDownloadLink } from '@react-pdf/renderer';
@@ -9,28 +9,31 @@ type Props = {
   nombreProductor: string;
   curp: string;
   tipoPersona: string;
-  folioRegistro: string;
+  folioRegistro: string | undefined;
   fechaRegistro: string;
   fechaActualizacion: string;
 };
 
-export const Finalizacion = ( )=> {
+type VerifyIdentityStepProps = {
+  reiniciar: () => void;
+};
+
+export const Finalizacion = ({  reiniciar }: VerifyIdentityStepProps )=> {
 
 const {  watch,  } = useFormContext<Productor>();
-  const nombreCompleto = watch('personal.nombre') + ' ' + watch('personal.apellidoPaterno') + ' ' + watch('personal.apellidoMaterno');
-  const tipoPersona:string = watch('personal.idTipoPersona') == 1 ? "Fisica" : "Moral";
+  const nombreCompleto = watch('datos.informacionPersonal.nombre') + ' ' + watch('datos.informacionPersonal.apellidoPaterno') + ' ' + watch('datos.informacionPersonal.apellidoMaterno');
+  const tipoPersona:string = watch('datos.informacionPersonal.idTipoPersona') == 1 ? "Fisica" : "Moral";
+  const folio = watch('datos.folio') ;
   const datosPdf:Props = {
     nombreProductor: nombreCompleto,
-    curp: watch('personal.curp'),
+    curp: watch('datos.informacionPersonal.curp'),
     tipoPersona:  tipoPersona,
-    folioRegistro: '00-1',
+    folioRegistro: folio,
     fechaRegistro: Date(),
     fechaActualizacion: Date(),
   };
-  const limpiarFormulario= () =>{
-
-  }
- 
+  
+  
   return (
     <section className="rounded-2xl p-4 shadow-sm sm:p-5">
         <div className="mb-2">
@@ -48,7 +51,7 @@ const {  watch,  } = useFormContext<Productor>();
           ¡Todo listo!
         </h2>
         <p className="text-lg text-muted-foreground max-w-md mx-auto">
-          Has completado todos los pasos del registro. Estamos generando tu comprobante de Registro.
+          Has completado todos los pasos del registro. Puedes decargar tu Anexo.
         </p>
       </div>
 
@@ -61,13 +64,14 @@ const {  watch,  } = useFormContext<Productor>();
             >
               {({ loading }) => (
                 
-                <button type="button" className="px-4 py-2 rounded-md text-white text-sm font-semibold bg-gray-400 hover:bg-gray-800 items-center" >
-                  {loading ? "Generando PDF..." : <Download className="h-5 w-5 text-dorado-110 shrink-0" aria-hidden />}
+               <button type="button" disabled={loading}
+                  className="px-4 py-2 rounded-md text-white text-sm font-semibold bg-gray-400 hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center gap-2" >
+                  <Download className="w-4 h-4" />
+                  {loading ? "Generando PDF..." : "Anexo II"}
                 </button>
               )}
             </PDFDownloadLink>
-        <button type="button" onClick={limpiarFormulario} title="Crear nuevo Registro" className="items-center rounded-sm bg-guinda-160 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-guinda-170 disabled:cursor-not-allowed disabled:opacity-40">
-          <SmilePlus className="h-5 w-5 text-dorado-110 shrink-0" aria-hidden />
+        <button type="button" onClick={reiniciar} title="Crear nuevo Registro" className="items-center rounded-sm bg-guinda-160 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-guinda-170 disabled:cursor-not-allowed disabled:opacity-40">
           Crear nuevo Registro
         </button>
       </div>

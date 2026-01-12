@@ -19,7 +19,9 @@ import { obtenerTipoPersona, obtenerEntidadFederativa, obtenerEstadoCivil,
     obtenerTipoDireccion,
     obtenerTipoCultivo,
     obtenerPoblacionIndigena,
-    obtenerDocumentoExpediente
+    obtenerDocumentoExpediente,
+    obtenerLengua,
+    obtenerTipoCentroProduccion
 } from '../actions/obtener-catalogos.actions';
 
 export const useCatalogosTipoPersona = () => {
@@ -29,6 +31,7 @@ export const useCatalogosTipoPersona = () => {
   return useQuery({
     queryKey: ['tipoPersona'],
     queryFn: obtenerTipoPersona,
+    retry: false,
     staleTime: 1000 * 60 *15,
     refetchOnReconnect: false,
     refetchOnMount: false,
@@ -51,12 +54,13 @@ export const useCatalogosEstadoCivil = () => {
     //Todo: viene lógica
 
   return useQuery({
-        queryKey: ['estadoCivil'],
-        queryFn: obtenerEstadoCivil,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['estadoCivil'],
+    queryFn: obtenerEstadoCivil,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosSexo = () => {
@@ -64,12 +68,13 @@ export const useCatalogosSexo = () => {
     //Todo: viene lógica
 
   return useQuery({
-        queryKey: ['sexo'],
-        queryFn: obtenerSexo,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['sexo'],
+    queryFn: obtenerSexo,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosTipoIdentificacion = () => {
@@ -77,12 +82,13 @@ export const useCatalogosTipoIdentificacion = () => {
     //Todo: viene lógica
 
   return useQuery({
-        queryKey: ['tipoIdentificacion'],
-        queryFn: obtenerTipoIdentificacion,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['tipoIdentificacion'],
+    queryFn: obtenerTipoIdentificacion,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 /*** SECCIÓN DOMICILIO ***/
@@ -108,12 +114,13 @@ export const useCatalogosTipoVialidad = () => {
     //Todo: viene lógica
 
   return useQuery({
-        queryKey: ['tipoVialidad'],
-        queryFn: obtenerTipoVialidad,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['tipoVialidad'],
+    queryFn: obtenerTipoVialidad,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosTipoTelefono = () => {
@@ -121,12 +128,13 @@ export const useCatalogosTipoTelefono = () => {
     //Todo: viene lógica
 
   return useQuery({
-        queryKey: ['tipoTelefono'],
-        queryFn: obtenerTipoTelefono,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['tipoTelefono'],
+    queryFn: obtenerTipoTelefono,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosTipoDireccion = () => {
@@ -134,12 +142,13 @@ export const useCatalogosTipoDireccion = () => {
     //Todo: viene lógica
 
   return useQuery({
-        queryKey: ['tipoDireccion'],
-        queryFn: obtenerTipoDireccion,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    }); 
+    queryKey: ['tipoDireccion'],
+    queryFn: obtenerTipoDireccion,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  }); 
 };
 
 export const useCatalogosTipoCultivo = () => {
@@ -147,110 +156,119 @@ export const useCatalogosTipoCultivo = () => {
     //Todo: viene lógica
 
   return useQuery({
-        queryKey: ['cultivos'],
-        queryFn: obtenerTipoCultivo,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['cultivos'],
+    queryFn: obtenerTipoCultivo,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosTipoRegimen = () => {
     //Todo: viene lógica
   return useQuery({
-        queryKey: ['regimen'],
-        queryFn: obtenerTipoRegimen,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['regimen'],
+    queryFn: obtenerTipoRegimen,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosTipoDocumentoLegal = () => {
     //Todo: viene lógica
   return useQuery({
-        queryKey: ['documentoLegal'],
-        queryFn: obtenerTipoDocumentoLegal,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['documentoLegal'],
+    queryFn: obtenerTipoDocumentoLegal,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosTipoAsentamientoHumano = () => {
     //Todo: viene lógica
   return useQuery({
-        queryKey: ['asentamiento'],
-        queryFn: obtenerTipoAsentamientoHumano,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['asentamiento'],
+    queryFn: obtenerTipoAsentamientoHumano,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosTipoDiscapacidad = () => {
     //Todo: viene lógica
   return useQuery({
-        queryKey: ['discapacidad'],
-        queryFn: obtenerTipoDiscapacidad,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['discapacidad'],
+    queryFn: obtenerTipoDiscapacidad,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosSectorAgroalimentario = () => {
     //Todo: viene lógica
   return useQuery({
-        queryKey: ['sectorAgroalimentario'],
-        queryFn: obtenerSectorAgroalimentario,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['sectorAgroalimentario'],
+    queryFn: obtenerSectorAgroalimentario,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosRegimenHidrico = () => {
     //Todo: viene lógica
   return useQuery({
-        queryKey: ['regimenHidrico'],
-        queryFn: obtenerRegimenHidrico,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['regimenHidrico'],
+    queryFn: obtenerRegimenHidrico,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosOrganizacion = () => {
     //Todo: viene lógica
   return useQuery({
-        queryKey: ['organizacion'],
-        queryFn: obtenerOrganizacion,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['organizacion'],
+    queryFn: obtenerOrganizacion,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 export const useCatalogosNacionalidad = () => {
     //Todo: viene lógica
   return useQuery({
-        queryKey: ['nacionalidad'],
-        queryFn: obtenerNacionalidad,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['nacionalidad'],
+    queryFn: obtenerNacionalidad,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosEscolaridad = () => {
     //Todo: viene lógica
   return useQuery({
-        queryKey: ['escolaridad'],
-        queryFn: obtenerEscolaridad,
-        staleTime: 1000 * 60 *15,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-    });  
+    queryKey: ['escolaridad'],
+    queryFn: obtenerEscolaridad,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 
 export const useCatalogosCultivoEspecie = () => {
@@ -258,10 +276,11 @@ export const useCatalogosCultivoEspecie = () => {
   return useQuery({
     queryKey: ['cultivosEspecie'],
     queryFn: obtenerCultivoEspecie,
+    retry: false,
     staleTime: 1000 * 60 *15,
     refetchOnReconnect: false,
     refetchOnMount: false,
-    });  
+  });  
 };
 
 export const useCatalogosCicloAgricola = () => {
@@ -282,10 +301,11 @@ export const useCatalogosCentroIntegrador = () => {
   return useQuery({
     queryKey: ['centroIntegrador'],
     queryFn: obtenerCentroIntegrador,
+    retry: false,
     staleTime: 1000 * 60 *15,
     refetchOnReconnect: false,
     refetchOnMount: false,
-    });  
+  });  
 };
 
 export const useCatalogosPoblacionIndigena = () => {
@@ -295,11 +315,13 @@ export const useCatalogosPoblacionIndigena = () => {
   return useQuery({
     queryKey: ['poblacionIndigena'],
     queryFn: obtenerPoblacionIndigena,
+    retry: false,
     staleTime: 1000 * 60 *15,
     refetchOnReconnect: false,
     refetchOnMount: false,
-    });  
+  });  
 };
+
 export const useCatalogosDocumentosExpediente = () => {
 
     //Todo: viene lógica
@@ -307,9 +329,35 @@ export const useCatalogosDocumentosExpediente = () => {
   return useQuery({
     queryKey: ['documentoExpediente'],
     queryFn: obtenerDocumentoExpediente,
+    retry: false,
     staleTime: 1000 * 60 *15,
     refetchOnReconnect: false,
     refetchOnMount: false,
-    });  
+  });  
+};
+export const useCatalogosTipoCentroProduccion = () => {
+
+    //Todo: viene lógica
+
+  return useQuery({
+    queryKey: ['tipoCentroProduccion'],
+    queryFn: obtenerTipoCentroProduccion,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
+};
+
+export const useCatalogosLenguas = () => {
+
+  return useQuery({
+    queryKey: ['lenguas'],
+    queryFn: obtenerLengua,
+    retry: false,
+    staleTime: 1000 * 60 *15,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });  
 };
 

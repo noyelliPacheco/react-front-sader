@@ -3,13 +3,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { AppSidebar } from "./components/custom/AppSidebar"
 import { /*BrowserRouter,*/ Outlet } from "react-router"
 import { Header } from "./components/custom/Header"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-
  
-const queryClient = new QueryClient();
+
  const InternoLayout = () => {
   return (
-     <QueryClientProvider client={queryClient}>
+     <div>
       <Sonner richColors closeButton  theme="light"  />
       <SidebarProvider defaultOpen={true}>
         {/* Sidebar fijo a la izquierda */}
@@ -24,7 +22,7 @@ const queryClient = new QueryClient();
           </main>
         </div>
       </SidebarProvider>
-  // </QueryClientProvider>
+  </div>
   )
 }
 

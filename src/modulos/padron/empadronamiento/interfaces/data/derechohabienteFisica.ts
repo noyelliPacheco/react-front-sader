@@ -1,4 +1,4 @@
-import type { ProductorResponse } from "../response/productorFisico.response";
+import type { ProductorCreateResponse, ProductorResponse } from "../response/productorFisico.response";
 
 export const dummyProductorResponse: ProductorResponse = {
   success: true,
@@ -18,11 +18,13 @@ export const dummyProductorResponse: ProductorResponse = {
           idEntidadFederativa: null,
           idNacionalidad: 1,
           idTipoIdentificacion: 1,
+          numeroIdentificacion: "435435435",
           correoElectronico: "test@example.com",
           idTelefono: 1,
           numeroTelefono: "5512345678",
           idTelefonoAdicional: null,
-          numeroTelefonoAdicional: null
+          numeroTelefonoAdicional: null,
+          nss: "12345678901"
       },
       domicilio: {
           idDomicilio: 21346903,
@@ -51,7 +53,8 @@ export const dummyProductorResponse: ProductorResponse = {
           idTipoDiscapacidad: 1,
           indEspaniol: false,
           indDeclaratoriaIndigena: true,
-          idTipoDeclaratoriaIndigena: 0
+          idTipoDeclaratoriaIndigena: 0,
+            nombreLenguaIndigena: ""
       },
       registroProduccion: {
           idRegistroProduccion: 1,
@@ -59,12 +62,14 @@ export const dummyProductorResponse: ProductorResponse = {
           claveUppPsg: "001",
           idDetalleRegistroProduccion: 1,
           idCultivo: 1,
+          idTipoCultivo: 2,
           superficieHa: "10.00",
           totalCabezasHato: null,
           volumenProduccionTon: "1.00",
           valorProduccion: "1.00",
-          precioCultivoEspecie: "1000.00",
-          idRegimenHidrico: 1
+          precioCultivoEspecie: 1000.00,
+          idRegimenHidrico: 1,
+          idCicloAgricola:1,
       },
       centrosProduccion: [
           {
@@ -165,4 +170,15 @@ export const dummyProductorResponse: ProductorResponse = {
       },
       estatusRenapo: "RCN"
   }
+}
+
+export const dummyCreateProductorResponse: ProductorCreateResponse = {
+   message: "Productor empadronado exitosamente",
+    success: true,
+    data: {
+        mensaje: "Productor empadronado exitosamente",
+        identificador: "00000032",
+        accion: "CREADO"
+    },
+    code: 200,
 }

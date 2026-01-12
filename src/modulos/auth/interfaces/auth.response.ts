@@ -1,7 +1,13 @@
 import type { User } from '@/interfaces/user.interface';
 
-// Login, Register, CheckStatus
+//Login, register, checkStatus
 export interface AuthResponse {
-  user: User;
-  token: string;
+  message: string;
+  success: boolean;
+  data: {
+    user: User;
+    token: string;
+};
+  code: number;
+
 }

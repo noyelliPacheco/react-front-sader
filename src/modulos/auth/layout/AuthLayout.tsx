@@ -1,7 +1,7 @@
 import texturaAgricultura from "@/assets/img/layout/textura-01.svg";
 import { Outlet } from 'react-router';
 
-export const AuthLayout = () => {
+const AuthLayout = () => {
   return (
     <div className="">
         <div className="absolute inset-0 "
@@ -20,3 +20,4 @@ export const AuthLayout = () => {
 
   )
 }
+export default AuthLayout;

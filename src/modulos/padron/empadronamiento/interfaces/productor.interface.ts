@@ -1,17 +1,30 @@
-import type { Caracterizacion } from "./Caracterizacion.interface";
-import type { CentroProduccion } from "./centrosProducccion.interface";
-import type { Domicilio } from "./Domicilio.interface";
-import type { Expediente } from "./Expediente.interface";
-import type { Personal } from "./Personal.interface";
-import type { RegistroDeProduccion } from "./RegistroDeProduccion.interface";
+import type { Caracterizacion } from "./caracterizacion.interface";
+import type {  CentroProduccion } from "./centroProducccion.interface";
+import type { Domicilio } from "./domicilio.interface";
+import type { Expediente } from "./expediente.interface";
+import type { Personal } from "./personal.interface";
+import type { RegistroDeProduccion } from "./registroDeProduccion.interface";
 
 
 export interface Productor {
-    personal: Personal;
-    domicilio : Domicilio;
-    registroDeProduccion : RegistroDeProduccion;
-    caracterizacion : Caracterizacion;
-    expediente : Expediente;
-    centroProduccion : CentroProduccion[];
+    datos:{
+        informacionPersonal:    Personal;
+        idPersona:              number | null;
+        idPersonaHistorica:     number | null
+        domicilio :             Domicilio;
+        registroProduccion :    RegistroDeProduccion;
+        caracterizacion :       Caracterizacion;
+        expediente :            Expediente;
+        unidadProduccion :      CentroProduccion[];
+        folio?:                 string;
+    },
+    credencialElector?:         File | null;
+    comprobanteDomicilio?:      File | null;
+    documentoLegalPropiedad?:   File | null;
+    documentoArrendatario?:     File | null;
+    formatoInscripcionPgn?:     File | null;
+    permisoPesca?:              File | null;
+    actaConstitutiva?:          File | null;
+    
 }
 

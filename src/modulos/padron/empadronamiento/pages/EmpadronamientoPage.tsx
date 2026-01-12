@@ -1,23 +1,26 @@
 import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { InformacionRegistroProduccion } from "../components/custom/seccionesForm/InformacionRegistroProduccion";
+import { InformacionRegistroProduccion } from "../components/custom/seccionesForm/informacionRegistroProduccion/InformacionRegistroProduccion";
 import { InformacionCaracterizacion } from "../components/custom/seccionesForm/InformacionCaracterizacion";
 import { InformacionExpediente } from "../components/custom/seccionesForm/InformacionExpediente";
-import { InformacionDomicilio } from "../components/custom/seccionesForm/InformacionDomicilio";
-import { InformacionPersonal } from "../components/custom/seccionesForm/InformacionPersonal";
+import { InformacionDomicilio } from "../components/custom/seccionesForm/informacionDomicilio/InformacionDomicilio";
+import { InformacionPersonal } from "../components/custom/seccionesForm/informacionPersonal/InformacionPersonal";
 
-import { VerificarIdentidad } from "../components/custom/seccionesForm/VerificarIdentidad";
+import { VerificarIdentidad } from "../components/custom/seccionesForm/verificarIdentidad/VerificarIdentidad";
 import { Finalizacion } from "../components/custom/seccionesForm/Finalizacion";
 import {  WizardSidebar,  type WizardStep,} from "../components/custom/wizard/WizardSiderbar";
 
 import {  ShieldCheck,  User,Home, FolderOpen, MapPinned,ChartLine,LayoutList,CircleCheckBig} from "lucide-react";
-import { CentrosProduccion } from "../components/custom/seccionesForm/CentrosProduccion";
+import { InformacionCentroProduccion } from "../components/custom/seccionesForm/informacionCentroProduccion/InformacionCentroProduccion";
 import { useCatalogosCultivoEspecie, useCatalogosDocumentosExpediente, useCatalogosEntidadFederativa, 
-  useCatalogosEscolaridad, useCatalogosEstadoCivil, useCatalogosLocalidad, useCatalogosMunicipio, useCatalogosNacionalidad, useCatalogosOrganizacion, 
+  useCatalogosEscolaridad, useCatalogosEstadoCivil, useCatalogosLenguas, useCatalogosLocalidad, useCatalogosMunicipio, useCatalogosNacionalidad, useCatalogosOrganizacion, 
   useCatalogosPoblacionIndigena, useCatalogosRegimenHidrico, useCatalogosSectorAgroalimentario, useCatalogosSexo, 
-  useCatalogosTipoAsentamientoHumano, useCatalogosTipoCultivo, useCatalogosTipoDireccion, useCatalogosTipoDiscapacidad, 
-  useCatalogosTipoDocumentoLegal, useCatalogosTipoPersona, useCatalogosTipoRegimen, useCatalogosTipoTelefono, useCatalogosTipoVialidad } from "../hooks/useCatalogos";
+  useCatalogosTipoAsentamientoHumano, useCatalogosTipoCentroProduccion, useCatalogosTipoCultivo, useCatalogosTipoDireccion, useCatalogosTipoDiscapacidad, 
+  useCatalogosTipoDocumentoLegal, useCatalogosTipoIdentificacion, useCatalogosTipoPersona, useCatalogosTipoRegimen, useCatalogosTipoTelefono, useCatalogosTipoVialidad } from "../hooks/useCatalogos";
 import type { Productor } from "../interfaces/productor.interface";
+import { useCrearRegistroProductorFisico } from "../hooks/mutations/useCrearRegistroProductorFisico";
+import { toast } from "sonner";
+import { defaultProductorValues } from "../interfaces/defaultProductorValues.interface";
 
 interface Props {
   derechohabienteForm: Productor | undefined;
@@ -25,11 +28,11 @@ interface Props {
 
 export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
   /**  Variables  **/
-  const methods = useForm<Productor>({ defaultValues: derechohabienteForm, mode: "onSubmit", });
-  const { handleSubmit, /*formState: { errors },*/ watch  } = methods;
+  const methods = useForm<Productor>({ defaultValues: derechohabienteForm, mode: "onChange", });
+  const {  /*formState: { errors },*/ watch ,setValue,reset } = methods;
 
-  const idEntidad = Number(watch("domicilio.idEntidad"));
-  const idMunicipio = Number(watch("domicilio.idMunicipio"));
+  const idEntidad = Number(watch("datos.domicilio.idEntidadFederativa"));
+  const idMunicipio = Number(watch("datos.domicilio.idMunicipio"));
   
   
     const catalogoMunicipio = useCatalogosMunicipio(idEntidad);
@@ -131,6 +134,7 @@ export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
     sexo: useCatalogosSexo(),      
     nacionalidad: useCatalogosNacionalidad(),
     tipoTelefono: useCatalogosTipoTelefono(),
+    tipoIdentificacion: useCatalogosTipoIdentificacion(),
     entidadFederativa : catalogoEntidadFederativa,
   };
     
@@ -153,6 +157,7 @@ export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
   const catalogoCentroProductivo={
       tipoDocumentoLegal: useCatalogosTipoDocumentoLegal(),
       entidadFederativa : catalogoEntidadFederativa,
+      tipoCentroProduccion: useCatalogosTipoCentroProduccion(),
     };
     const catalogoCaracterizacion={
       asociacionOrganizacion: useCatalogosOrganizacion(),
@@ -160,17 +165,40 @@ export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
       poblacionIndigena: useCatalogosPoblacionIndigena(),
       nivelEstudios: useCatalogosEscolaridad(),
       regimenPropietario: useCatalogosTipoRegimen(),
+      lenguas: useCatalogosLenguas(),
     };
+  const { mutate, } = useCrearRegistroProductorFisico();
 
   /**  Métodos  **/
-  const onSubmit = (data: Productor) => {
-    console.log("Empadronamiento -> datos:", JSON.stringify(data, null, 2));
-    handleNext();
+  const onSubmit = (form: FormData) => {
+    // Si quieres avanzar SOLO cuando el POST fue exitoso,
+    // mueve handleNext() al onSuccess (recomendado).
 
+    const raw = form.get("payload");
+    const pretty = JSON.stringify(JSON.parse(String(raw)), null, 2);
+    console.log("PAYLOAD PRETTY:\n", pretty);
+
+    
+
+    mutate(form, {
+      onSuccess: (resp) => {
+        setValue("datos.folio", resp.data.identificador ?? '');
+        console.log("Empadronamiento OK:", resp.data.identificador);
+        toast.success("Se realizo correctamente la captura del productor", {
+          position: "bottom-center",
+        });
+        handleNext(); 
+      },
+      onError: (err) => {
+        console.error("Error al empadronar:", err);
+        toast.error("Error al intentar empadronar.", {
+          position: "bottom-center",
+        });
+      },
+    });
   };
 
   const handleNext = () => {
-    console.log(currentStep);
     if (currentStep < 9) {
       setCompletedSteps((prev) => [...prev, currentStep]);
       setCurrentStep((prev) => prev + 1);
@@ -189,6 +217,24 @@ export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
     setCurrentStep(stepId);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const reiniciar = () =>{
+    reiniciarWizard();
+    reiniciarFormulario();
+
+  }
+  const reiniciarFormulario = () =>{
+    reset(defaultProductorValues);
+    toast.success("Formulario limpio.", { position: "bottom-center" });
+
+  }
+  const reiniciarWizard = () =>{
+    handleStepClick(1);
+    setCompletedSteps([]); // ningún paso completado
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const actualizarDerechohabiente = ()=>{
+    setCompletedSteps([1,2,3,4,5,6,7,8]);
+  }
 
   return (
     
@@ -197,21 +243,21 @@ export const EmpadronamientoPage = ({ derechohabienteForm }: Props) => {
       <WizardSidebar steps={steps} currentStep={currentStep} onStepClick={handleStepClick} />
 
       {/* Contenido del formulario */}
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-1 flex-col" >
+      <FormProvider  {...methods}>
+        <form  noValidate className="flex flex-1 flex-col" >
           {/* Tarjeta principal que se estira */}
           <div className="flex-1 rounded-2xl  bg-white p-3 ">
 
             {/* Contenido del paso con scroll si es muy largo */}
             <div className="flex-1 overflow-auto">
-              {currentStep === 1 && ( <VerificarIdentidad onNext={handleNext} catalogos={catalogoTipoPersona}/> )}
+              {currentStep === 1 && ( <VerificarIdentidad onNext={handleNext} catalogos={catalogoTipoPersona} actualizar = {actualizarDerechohabiente}/> )}
               {currentStep === 2 && ( <InformacionPersonal onNext={handleNext} onBack={handleBack} catalogos={catalogosInformacionPersonal} /> )}
               {currentStep === 3 && ( <InformacionDomicilio onNext={handleNext} onBack={handleBack} catalogos={catalogoDomicilio}/> )}
               {currentStep === 4 && ( <InformacionRegistroProduccion onNext={handleNext} onBack={handleBack} catalogos={catalogoRegistroProduccion}/> )}
-              {currentStep === 5 && ( <CentrosProduccion onNext={handleNext} onBack={handleBack} catalogos={catalogoCentroProductivo}/> )}
+              {currentStep === 5 && ( <InformacionCentroProduccion onNext={handleNext} onBack={handleBack} catalogos={catalogoCentroProductivo}/> )}
               {currentStep === 6 && ( <InformacionCaracterizacion onNext={handleNext} onBack={handleBack} catalogos={catalogoCaracterizacion}/> )}
               {currentStep === 7 && ( <InformacionExpediente onNext={handleNext} onBack={handleBack} onSubmit={onSubmit} catalogos={catalogoDocumentosExpediente}/> )}
-              {currentStep === 8 && <Finalizacion  />}
+              {currentStep === 8 && <Finalizacion reiniciar={reiniciar}/>}
             </div>
           </div>
         </form>

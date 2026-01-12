@@ -10,14 +10,14 @@ import { cn } from "@/lib/utils";
 import type { CatalogoResponse } from "../../../interfaces/response/catalogos.response";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import type { Productor } from "../../../interfaces/productor.interface";
-import type { Documento } from "../../../interfaces/Expediente.interface";
+import type { Documento } from "../../../interfaces/expediente.interface";
 
 
 
 type VerifyIdentityStepProps = {
   onBack: () => void;
   onNext: () => void;
-  onSubmit: (data: Productor) => void;
+  onSubmit: (data: FormData) => void;
   catalogos: {
     documentosExpediente: UseQueryResult<CatalogoResponse, Error>;
   };
@@ -60,22 +60,65 @@ const normalizeDocumento = (d: Partial<Documento>): Documento => ({
   eliminado: (d.eliminado ?? false) as any,
 });
 
-export const InformacionExpediente = ({   onBack, onSubmit, catalogos, }: VerifyIdentityStepProps) => {
+export const InformacionExpediente = ({   onBack, onSubmit, catalogos,  }: VerifyIdentityStepProps) => {
   
   const responseDocumentos = catalogos.documentosExpediente.data;
   const { control, watch,getValues } = useFormContext<Productor>();
   
   
 
-  const handleEnviar= ()=>{
-    const data = getValues(); // <-- todo el Productor
-    onSubmit(data);
+  const handleEnviar = () => {
+    const data = getValues();
+    const formData = new FormData();
 
-  }
+    // 1) estructura fija requerida por backend
+    const fixedKeys = [
+      "credencialElector",
+      "comprobanteDomicilio",
+      "documentoLegalPropiedad",
+      "documentoArrendatario",
+      "formatoInscripcionPgn",
+      "permisoPesca",
+      "idTipoDocumentoRfc",
+      "actaConstitutiva",
+    ] as const;
+
+    fixedKeys.forEach((k) => formData.set(k, ""));
+
+    // 2) payload JSON sin archivos
+    formData.set("datos", JSON.stringify({
+    ...data.datos,
+    expediente: {
+      ...data.datos.expediente,
+      documentosArreglo: data.datos.expediente.documentosArreglo.map(d => ({
+        ...d,
+        file: undefined,
+      })),
+    },
+}));
+
+  // 3) archivos
+  data.datos.expediente.documentosArreglo.forEach((doc) => {
+    const tipo = Number(doc.idTipoDocumentoExpediente);
+    if (!(doc.file instanceof File)) return;
+
+    if (tipo === 1) formData.set("credencialElector", doc.file);
+    if (tipo === 2) formData.set("comprobanteDomicilio", doc.file);
+    if (tipo === 3) formData.set("documentoLegalPropiedad", doc.file);
+    if (tipo === 4) formData.set("documentoArrendatario", doc.file);
+    if (tipo === 5) formData.set("formatoInscripcionPgn", doc.file);
+    if (tipo === 6) formData.set("permisoPesca", doc.file);
+    if (tipo === 7) formData.set("idTipoDocumentoRfc", doc.file);
+    if (tipo === 8) formData.set("actaConstitutiva", doc.file);
+  });
+  
+
+  onSubmit(formData);
+};
 
   // FieldArray ligado al formulario
-  const { fields, replace, update } = useFieldArray({control,name: "expediente.documentos" as any,});
-  console.log(watch('expediente.documentos.0.tipoDocumentoExpediente'));
+  const { fields, replace, update } = useFieldArray({control,name: "datos.expediente.documentosArreglo" as any,});
+  
 
   // refs para inputs file
   const fileInputRefs = useRef<Record<number, HTMLInputElement | null>>({});
@@ -96,7 +139,7 @@ export const InformacionExpediente = ({   onBack, onSubmit, catalogos, }: Verify
   }, [responseDocumentos]);
 
   // documentos actuales del form (pueden venir precargados al consultar CURP)
-  const docsFromForm = (watch("expediente.documentos" as any) ??
+  const docsFromForm = (watch("datos.expediente.documentosArreglo" as any) ??
     []) as Documento[];
 
   // merge catálogo + docs del backend/form:
@@ -210,9 +253,7 @@ export const InformacionExpediente = ({   onBack, onSubmit, catalogos, }: Verify
     const current = normalizeDocumento(fields[idx] as any);
     const idTipo = Number(current.idTipoDocumentoExpediente);
 
-    if (!file) {
-      update(idx, {
-        ...current,
+    if (!file) { update(idx, { ...current,
         file: null,
         nombreDocumentoDigital: "",
       } as any);
@@ -221,9 +262,10 @@ export const InformacionExpediente = ({   onBack, onSubmit, catalogos, }: Verify
 
     // UX: spinner corto
     setUploadingByTipo((p) => ({ ...p, [idTipo]: true }));
+    console.log(file);
+    
     setTimeout(() => {
-      update(idx, {
-        ...current,
+      update(idx, {  ...current,
         indDocumentoDigital: true,
         eliminado: false,
         file: file,
@@ -376,7 +418,7 @@ export const InformacionExpediente = ({   onBack, onSubmit, catalogos, }: Verify
                     {checked && (
                       <div className="flex items-center gap-2">
                         {displayName ? (
-                          <div className="flex items-center gap-2 max-w-[280px]">
+                          <div className="flex items-center gap-2 ">
                             <div className="flex items-center gap-2 bg-secondary/50 rounded-lg px-3 py-1.5">
                               <FileText className="h-4 w-4 text-validation-success shrink-0" />
                               <span className="text-sm truncate">
@@ -472,9 +514,14 @@ export const InformacionExpediente = ({   onBack, onSubmit, catalogos, }: Verify
         >
           Anterior
         </Button>
+        
         <Button
           className="bg-guinda-160 text-white"
-          onClick={handleEnviar}
+         onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleEnviar();
+         }}
           variant="outline"
           size="lg"
         >

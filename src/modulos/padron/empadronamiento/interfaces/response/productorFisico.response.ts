@@ -1,11 +1,17 @@
 
 
-// export interface ProductorResponse{
-//     message: string;
-//     success: boolean;
-//     data:    Productor[] | [];
-//     code:    number;
-// }
+export interface ProductorCreateResponse{
+    message: string;
+    success: boolean;
+    data:    DataCreateProductor;
+    code:    number;
+}
+
+export interface DataCreateProductor {
+  mensaje:                string;
+  identificador:          string;
+  accion:                 string;
+}
 
 
 export interface ProductorResponse{
@@ -16,8 +22,8 @@ export interface ProductorResponse{
 
 export interface Data {
   curp:                string;
-  idPersona:           number;
-  idPersonaHistorica:  number;
+  idPersona:           number | null;
+  idPersonaHistorica:  number | null;
   informacionPersonal: InformacionPersonal;
   domicilio:           Domicilio;
   caracterizacion:     Caracterizacion;
@@ -28,36 +34,37 @@ export interface Data {
 }
 
 export interface Caracterizacion {
-  idCaracterizacion:                                null;
+  idCaracterizacion:                                number | null;
   indAsociacionCampesinaOrganizacionProductores:    boolean;
   nombreAsociacionCampesinaOrganizacionProductores: null;
-  idRegimenPropiedad:                               null;
-  idEscolaridad:                                    number;
+  idRegimenPropiedad:                               number | null;
+  idEscolaridad:                                    number | null;
   indDiscapacidad:                                  boolean;
-  idTipoDiscapacidad:                               number;
+  idTipoDiscapacidad:                               number | null;
   indEspaniol:                                      boolean;
   indDeclaratoriaIndigena:                          boolean;
-  idTipoDeclaratoriaIndigena:                       number;
+  idTipoDeclaratoriaIndigena:                       number | null;
+  nombreLenguaIndigena:                             string;
 }
 
 export interface CentrosProduccion {
-  idCentroProduccion:      number;
-  idTipoCentroProduccion:  number;
+  idCentroProduccion:      number | null;
+  idTipoCentroProduccion:  number | null;
   tipoCentroProduccion:    string;
   nombreCentroProduccion:  string;
-  idTipoDocumentoLegal:    number;
+  idTipoDocumentoLegal:    number | null;
   tipoDocumentoLegal:      string;
-  idEntidadFederativa:     number;
+  idEntidadFederativa:     number | null;
   nombreEntidadFederativa: string;
-  idMunicipio:             number;
+  idMunicipio:             number | null;
   nombreMunicipio:         string;
-  idLocalidad:             number;
+  idLocalidad:             number | null;
   nombreLocalidad:         string;
   georreferencias:         Georreferencia[];
 }
 
 export interface Georreferencia {
-  idGeorreferencia:   number;
+  idGeorreferencia:   number | null;
   tipoGeorreferencia: string;
   latitud:            number;
   longitud:           number;
@@ -65,16 +72,16 @@ export interface Georreferencia {
 }
 
 export interface Domicilio {
-  idDomicilio:         number;
+  idDomicilio:         number | null;
   codigoPostal:        null;
-  idEntidadFederativa: number;
-  idMunicipio:         number;
-  idLocalidad:         number;
+  idEntidadFederativa: number | null;
+  idMunicipio:         number | null;
+  idLocalidad:         number | null;
   centroIntegrador:    null;
-  idTipoAsentamiento:  number;
+  idTipoAsentamiento:  number | null;
   nombreAsentamiento:  string;
-  idTipoDireccion:     null;
-  idTipoVialidad:      number;
+  idTipoDireccion:     number | null;
+  idTipoVialidad:      number | null;
   nombreVialidad:      string;
   numeroExterior:      null;
   numeroInterior:      null;
@@ -88,8 +95,8 @@ export interface Expediente {
 }
 
 export interface Documento {
-  idDocumento:               number;
-  idTipoDocumentoExpediente: number;
+  idDocumento:               number | null;
+  idTipoDocumentoExpediente: number | null;
   tipoDocumentoExpediente:   string;
   indDocumentoDigital:       boolean;
   nombreDocumentoDigital:    null | string;
@@ -102,28 +109,32 @@ export interface InformacionPersonal {
   primerApellido:          string;
   segundoApellido:         string;
   fechaNacimiento:         Date;
-  idEstadoCivil:           number;
-  idGenero:                number;
+  idEstadoCivil:           number | null;
+  idGenero:                number | null;
   idEntidadFederativa:     null;
-  idNacionalidad:          number;
-  idTipoIdentificacion:    number;
+  idNacionalidad:          number | null;
+  idTipoIdentificacion:    number | null;
+  numeroIdentificacion:    string | null;
   correoElectronico:       string;
-  idTelefono:              number;
+  idTelefono:              number | null;
   numeroTelefono:          string;
-  idTelefonoAdicional:     null;
+  idTelefonoAdicional:     number | null;
   numeroTelefonoAdicional: null;
+  nss:                     string| null;
 }
 
 export interface RegistroProduccion {
-  idRegistroProduccion:        number;
-  idSectorAgroalimentario:     number;
+  idRegistroProduccion:        number | null;
+  idSectorAgroalimentario:     number | null;
+  idCicloAgricola:             number | null;
+  idTipoCultivo:                number | null;
   claveUppPsg:                 string;
-  idDetalleRegistroProduccion: number;
-  idCultivo:                   number;
+  idDetalleRegistroProduccion: number | null;
+  idCultivo:                   number | null;
   superficieHa:                string;
-  totalCabezasHato:            null;
+  totalCabezasHato:            number | null;
   volumenProduccionTon:        string;
   valorProduccion:             string;
-  precioCultivoEspecie:        string | number | '';
-  idRegimenHidrico:            number;
+  precioCultivoEspecie:        number | null;
+  idRegimenHidrico:            number | null;
 }
